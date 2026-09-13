@@ -1,0 +1,10 @@
+{
+  "folders": [{ "path": ".", "name": "Alwine Vertrieb" }],
+  "settings": {
+    "files.exclude": { "**/node_modules": true, "data/*.db*": true },
+    "editor.tabSize": 2,
+    "files.encoding": "utf8",
+    "terminal.integrated.cwd": "${workspaceFolder}"
+  },
+  "extensions": { "recommendations": ["anthropic.claude-code", "dbaeumer.vscode-eslint"] }
+}

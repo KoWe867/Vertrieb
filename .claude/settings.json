@@ -1,0 +1,26 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(./start.sh*)",
+      "Bash(npm test*)",
+      "Bash(npm install*)",
+      "Bash(npm run*)",
+      "Bash(node index.js*)",
+      "Bash(node --test*)",
+      "Bash(python3 scripts/fetch_leads.py*)",
+      "Bash(git status*)",
+      "Bash(git pull*)",
+      "Bash(git log*)",
+      "Bash(git diff*)",
+      "Bash(curl -s http://localhost:*)",
+      "Read",
+      "Glob",
+      "Grep"
+    ]
+  },
+  "hooks": {
+    "SessionStart": [
+      { "hooks": [ { "type": "command", "command": "if [ ! -d server/node_modules ] && command -v npm >/dev/null; then (cd server && npm install --silent) >/dev/null 2>&1 || true; fi; echo 'Alwine Vertrieb: /start startet Dashboard + Server, Pläne in plans/, Ablauf in .claude/skills/vertrieb-workflow'" } ] }
+    ]
+  }
+}

@@ -12,6 +12,11 @@ cd server && npm install && cd ..   # einmalig, Node 22
 
 Server-Tests: `cd server && npm test`. Konfiguration: `server/.env.example` nach `.env` kopieren (Token, Datenbankpfad, später Gmail- und Claude-Schlüssel).
 
+## Als Workspace öffnen
+
+- **VS Code:** `Vertrieb.code-workspace` öffnen. Task „Alwine starten“ (Strg/Cmd+Shift+B) startet Server und Dashboard, Task „Server-Tests“ führt `npm test` aus.
+- **Claude Code:** im Ordner starten; `.claude/settings.json` erlaubt Start-, Test- und Git-Befehle ohne Rückfrage und installiert beim ersten Start die Server-Abhängigkeiten. Danach `/start`.
+
 ## Skills und Pläne (Claude Code)
 
 `.claude/skills/` bündelt die Arbeitsweise: `vertrieb-workflow` (Tagesablauf, zuerst lesen), `backend-conventions` (Architektur, Plan-Format), `sales-agent-patterns` (Lead-Scoring Hot/Warm/Cold), `cofounder` (`/cofounder`, Positionierung und Pitch), `video-prompts` (Kundenvideos). Feature-Pläne in `plans/` (0 Desktop-Shell fertig, 1 Server, 2 Mail-Center Gmail-API, 3 KI-Lead-Finder 30/Tag, 4 Anrufe/Report). Konventionen in `CLAUDE.md`.
