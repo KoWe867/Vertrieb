@@ -21,10 +21,10 @@ Jeder Lead hat einen Markt (Deutschland, Österreich, Schweiz, USA, Kanada, UK, 
 
 | Markt | Standard-Kanal | Skripte |
 |---|---|---|
-| Deutschland, Österreich | Anschreiben (E-Mail) | Deutsch |
-| Alle anderen | Anrufen | Englisch |
+| Deutschland, Österreich, Schweiz | Anrufen | Deutsch |
+| USA, UK, Kanada, Australien, Welt | Anschreiben (E-Mail mit Bitte um ein Telefonat), bei Antwort anrufen | Englisch |
 
-Beides ist unter ⚙︎ umstellbar und pro Lead überschreibbar. Rechtlicher Hinweis: In Deutschland ist Kalt-E-Mail ohne Einwilligung unzulässig, die App warnt beim ersten Anschreiben. In den USA und UK ist Kalt-E-Mail an Firmen mit Abmeldemöglichkeit erlaubt. Details in `docs/06-international.md`.
+Beides ist unter ⚙︎ umstellbar und pro Lead überschreibbar. Das entspricht der Rechtslage: In Deutschland ist Telefon B2B erlaubt, Kalt-E-Mail nicht (die App warnt, falls ein deutscher Lead doch auf Anschreiben steht). In den USA und UK ist Kalt-E-Mail an Firmen mit Abmeldemöglichkeit erlaubt; die englische Erstmail bittet um ein kurzes Telefonat, „Antwort erhalten“ schiebt den Lead in den Anruf-Modus. Details in `docs/06-international.md`.
 
 ## Automatische Lead-Suche (nachts)
 

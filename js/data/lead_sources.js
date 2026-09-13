@@ -2,16 +2,16 @@
 // Geocoding über Nominatim, Firmendaten über Overpass. Beide erlauben Browser-Zugriff (CORS).
 window.ALWINE_SOURCES = (function () {
   const MARKETS = [
-    { id: "de", name: "Deutschland", land: "Deutschland", sprache: "de", kanal: "email", cc: "DE", tel: "+49" },
-    { id: "at", name: "Österreich", land: "Österreich", sprache: "de", kanal: "email", cc: "AT", tel: "+43" },
+    { id: "de", name: "Deutschland", land: "Deutschland", sprache: "de", kanal: "anruf", cc: "DE", tel: "+49" },
+    { id: "at", name: "Österreich", land: "Österreich", sprache: "de", kanal: "anruf", cc: "AT", tel: "+43" },
     { id: "ch", name: "Schweiz", land: "Schweiz", sprache: "de", kanal: "anruf", cc: "CH", tel: "+41" },
-    { id: "us", name: "USA", land: "USA", sprache: "en", kanal: "anruf", cc: "US", tel: "+1" },
-    { id: "ca", name: "Kanada", land: "Kanada", sprache: "en", kanal: "anruf", cc: "CA", tel: "+1" },
-    { id: "uk", name: "Großbritannien", land: "United Kingdom", sprache: "en", kanal: "anruf", cc: "GB", tel: "+44" },
-    { id: "ie", name: "Irland", land: "Ireland", sprache: "en", kanal: "anruf", cc: "IE", tel: "+353" },
-    { id: "au", name: "Australien", land: "Australia", sprache: "en", kanal: "anruf", cc: "AU", tel: "+61" },
-    { id: "nz", name: "Neuseeland", land: "New Zealand", sprache: "en", kanal: "anruf", cc: "NZ", tel: "+64" },
-    { id: "intl", name: "Andere (Welt, Englisch)", land: "", sprache: "en", kanal: "anruf", cc: "", tel: "" }
+    { id: "us", name: "USA", land: "USA", sprache: "en", kanal: "email", cc: "US", tel: "+1" },
+    { id: "ca", name: "Kanada", land: "Kanada", sprache: "en", kanal: "email", cc: "CA", tel: "+1" },
+    { id: "uk", name: "Großbritannien", land: "United Kingdom", sprache: "en", kanal: "email", cc: "GB", tel: "+44" },
+    { id: "ie", name: "Irland", land: "Ireland", sprache: "en", kanal: "email", cc: "IE", tel: "+353" },
+    { id: "au", name: "Australien", land: "Australia", sprache: "en", kanal: "email", cc: "AU", tel: "+61" },
+    { id: "nz", name: "Neuseeland", land: "New Zealand", sprache: "en", kanal: "email", cc: "NZ", tel: "+64" },
+    { id: "intl", name: "Andere (Welt, Englisch)", land: "", sprache: "en", kanal: "email", cc: "", tel: "" }
   ];
 
   // Branche → OSM-Tags. Jede Zeile ein Overpass-Filter.

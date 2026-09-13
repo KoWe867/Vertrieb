@@ -25,7 +25,7 @@
   const save = (k, v) => localStorage.setItem(k, JSON.stringify(v));
 
   let leads = load(LS_LEADS, []);
-  let settings = Object.assign({ ich: "", telefon: "", zielAnrufe: 40, zielMails: 15, zielTermine: 1, kanalDe: "email", kanalIntl: "anruf" }, load(LS_SETTINGS, {}));
+  let settings = Object.assign({ ich: "", telefon: "", zielAnrufe: 40, zielMails: 15, zielTermine: 1, kanalDe: "anruf", kanalIntl: "email" }, load(LS_SETTINGS, {}));
   const LS_SEARCHES = "alwine.searches.v1";
   let searches = load(LS_SEARCHES, []);
   const saveSearches = () => save(LS_SEARCHES, searches);
@@ -40,7 +40,7 @@
   const langOf = l => l?.sprache || marketOf(l).sprache;
   const scriptsFor = l => langOf(l) === "en" ? SCRIPTS_EN : SCRIPTS;
   const emailsFor = l => langOf(l) === "en" ? EMAILS_EN : EMAILS;
-  const kanalOf = l => l?.kanal || (["de", "at"].includes(l?.markt || "de") ? settings.kanalDe : settings.kanalIntl);
+  const kanalOf = l => { const k = l?.kanal || (["de", "at"].includes(l?.markt || "de") ? settings.kanalDe : settings.kanalIntl); return k === "email" && !l?.email ? "anruf" : k; };
   const defaultKanal = marktId => ["de", "at"].includes(marktId || "de") ? settings.kanalDe : settings.kanalIntl;
   // Grobe Ortszeit aus Längengrad (für Anrufe in andere Zeitzonen)
   const localTimeOf = l => { if (l?.lon == null) return ""; const off = Math.round(l.lon / 15); const d = new Date(Date.now() + off * 3600e3); return d.toISOString().slice(11, 16) + " (UTC" + (off >= 0 ? "+" : "") + off + ")"; };
@@ -435,7 +435,7 @@
       <h2>International (USA, UK, Welt)</h2>
       <div class="card">
         <p><b>Leads:</b> Tab „Finden“ sucht Firmen weltweit in OpenStreetMap. Suchaufträge speichern und morgens „Alle ausführen“, oder die nächtliche Automatik nutzen (Heute → Automatische Leads laden).</p>
-        <p><b>Kanal:</b> Ausland standardmäßig Anrufen mit englischem Skript, Deutschland Anschreiben. Unter ⚙︎ änderbar, je Lead überschreibbar.</p>
+        <p><b>Kanal:</b> Deutschland direkt anrufen. Ausland zuerst E-Mail auf Englisch mit der Bitte um ein kurzes Telefonat; sobald eine Antwort kommt, „Antwort erhalten“ tippen, dann wandert der Lead in den Anruf-Modus mit englischem Skript. Unter ⚙︎ änderbar, je Lead überschreibbar.</p>
         <p><b>Anrufzeiten von Deutschland aus:</b> UK 10–12 und 15–17 Uhr · USA Ostküste 15–18 Uhr · Texas/Chicago 16–19 Uhr · Kalifornien 18–20 Uhr · Australien 6–8 Uhr morgens.</p>
         <p><b>USA-Recht:</b> Firmen anrufen erlaubt. Kalt-E-Mail an Firmen erlaubt (CAN-SPAM: echte Absenderadresse, Postanschrift, Abmeldemöglichkeit). <b>UK:</b> Firmen anrufen erlaubt (CTPS prüfen), E-Mail an Firmenadressen erlaubt (PECR). <b>Kanada:</b> E-Mail streng (CASL).</p>
         <p>Details, Telefonie-Tipps und Preise: docs/06-international.md</p>
@@ -451,9 +451,9 @@
       <label>Tagesziel Anrufe</label><input id="s-za" type="number" value="${settings.zielAnrufe}">
       <label>Tagesziel E-Mails</label><input id="s-zm" type="number" value="${settings.zielMails}">
       <label>Tagesziel Termine</label><input id="s-zt" type="number" value="${settings.zielTermine}">
-      <label>Kanal Deutschland / Österreich</label><select id="s-kde"><option value="email" ${settings.kanalDe === "email" ? "selected" : ""}>Anschreiben (E-Mail)</option><option value="anruf" ${settings.kanalDe === "anruf" ? "selected" : ""}>Anrufen</option></select>
-      <label>Kanal Ausland (USA, UK, Welt)</label><select id="s-kin"><option value="anruf" ${settings.kanalIntl === "anruf" ? "selected" : ""}>Anrufen</option><option value="email" ${settings.kanalIntl === "email" ? "selected" : ""}>Anschreiben (E-Mail)</option></select>
-      <small class="muted">Hinweis: In Deutschland ist Kalt-E-Mail ohne Einwilligung rechtlich riskant, Telefon B2B erlaubt. In den USA ist Kalt-E-Mail B2B erlaubt (CAN-SPAM, mit Abmeldemöglichkeit). Details: Wissen → Rechtliches.</small>
+      <label>Kanal Deutschland / Österreich</label><select id="s-kde"><option value="anruf" ${settings.kanalDe === "anruf" ? "selected" : ""}>Anrufen</option><option value="email" ${settings.kanalDe === "email" ? "selected" : ""}>Anschreiben (E-Mail)</option></select>
+      <label>Kanal Ausland (USA, UK, Welt)</label><select id="s-kin"><option value="email" ${settings.kanalIntl === "email" ? "selected" : ""}>Anschreiben (E-Mail, um Telefonat bitten)</option><option value="anruf" ${settings.kanalIntl === "anruf" ? "selected" : ""}>Anrufen</option></select>
+      <small class="muted">Ablauf: Deutschland direkt anrufen (B2B erlaubt). USA/Ausland zuerst E-Mail mit Bitte um ein Telefonat (CAN-SPAM-konform), bei Antwort anrufen. Details: Wissen → Rechtliches.</small>
       <button class="btn block" style="margin-top:1rem" id="s-save">Speichern</button>
       <div class="row" style="margin-top:.8rem"><button class="btn ghost sm grow" id="s-backup">Backup (JSON)</button><button class="btn ghost sm grow" id="s-restore">Wiederherstellen</button></div>
       <input type="file" id="s-file" accept="application/json" hidden>
@@ -475,7 +475,7 @@
     if (writeState.leadId !== l.id) writeState = { leadId: l.id, tplId: "" };
     const EM = emailsFor(l);
     const n = (l.kontakte || []).filter(k => k.typ === "email").length;
-    const suggested = ["erstkontakt", "followup2", "followup3"][Math.min(n, 2)];
+    const suggested = langOf(l) === "en" ? ["erstkontakt", "erstkontakt2", "followup3"][Math.min(n, 2)] : ["erstkontakt", "followup2", "followup3"][Math.min(n, 2)];
     const tpl = EM.find(e => e.id === (writeState.tplId || suggested)) || EM[0];
     const ind = industryOf(l);
     const isDe = langOf(l) === "de";
@@ -504,7 +504,7 @@
       <div class="outcome-grid">
         <button class="btn ok" id="w-sent">✅ Gesendet (Wiedervorlage +7 Tage)</button>
         <button class="btn warn" id="w-call">📞 Lieber anrufen</button>
-        <button class="btn soft" id="w-reply">💬 Antwort erhalten</button>
+        <button class="btn soft" id="w-reply">💬 Antwort erhalten → anrufen</button>
         <button class="btn danger" id="w-no">Kein Interesse</button>
       </div>`;
   }

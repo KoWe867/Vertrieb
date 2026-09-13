@@ -1,15 +1,27 @@
 // English email templates for international leads.
 window.ALWINE_EMAILS_EN = [
-  { id: "erstkontakt", kategorie: "First contact (cold email, allowed in US/UK B2B with opt-out)", titel: "Cold email without prior call", betreff: "Quick question about {firma}'s website",
+  { id: "erstkontakt", kategorie: "First contact (cold email, allowed in US/UK B2B with opt-out)", titel: "Cold email 1 – ask for a short call", betreff: "Quick question about {firma}'s website",
     text: `Hi {ansprechpartner},
 
 I came across {firma} and noticed something: {beobachtung}
 
 We're Alwine, a small software and web studio from Germany. We build websites for businesses like yours that run 24/7 and that you can still edit yourself, small tools that take admin work off your plate, and automated videos for social media.
 
-My question: would it be worth 15 minutes to see how this looks for a similar business? If yes, just reply with a weekday that works for you.
+My question: would you be open to a 10-minute phone call this week? I'd show you 2–3 examples from similar businesses and you decide if it's worth anything. If yes, just reply with a day and time that works for you (your time zone) – or the best number to reach you.
 
 If not, no problem at all – a quick "no thanks" is enough and you won't hear from me again.
+
+Best regards,
+{ich}
+Alwine · {telefon}
+
+Alwine · [full postal address] · Reply "stop" to opt out.` },
+  { id: "erstkontakt2", kategorie: "First contact (cold email, allowed in US/UK B2B with opt-out)", titel: "Cold email 2 – short bump (5–7 days later)", betreff: "Re: Quick question about {firma}'s website",
+    text: `Hi {ansprechpartner},
+
+Just bumping this in case it got buried. One concrete idea for {firma}: {beobachtung}
+
+Would a 10-minute call this week be okay? Reply with a time (your time zone) and I'll call you – or send me the best number.
 
 Best regards,
 {ich}

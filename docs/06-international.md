@@ -4,8 +4,10 @@ Die App trennt Leads nach Markt. Standard-Einstellung (änderbar unter ⚙︎):
 
 | Markt | Kanal | Sprache | Warum |
 |---|---|---|---|
-| Deutschland, Österreich | Anschreiben | Deutsch | Wunsch des Teams. Rechtlich ist Telefon B2B in DE der sichere Kanal, Kalt-E-Mail nicht (siehe unten). |
-| USA, Kanada, UK, Irland, Australien, Neuseeland, Welt | Anrufen | Englisch | Kaltanrufe an Firmen sind dort üblich und erlaubt, Kalt-E-Mail an Firmen ebenfalls (mit Abmeldemöglichkeit). |
+| Deutschland, Österreich, Schweiz | Anrufen | Deutsch | Telefon B2B ist bei sachlichem Bezug erlaubt, Kalt-E-Mail nicht (siehe unten). |
+| USA, Kanada, UK, Irland, Australien, Neuseeland, Welt | Anschreiben, dann anrufen | Englisch | Kalt-E-Mail an Firmen ist dort erlaubt (mit Abmeldemöglichkeit). Die Erstmail bittet um ein 10-Minuten-Telefonat. Wer antwortet, wird angerufen; das spart Fremdnummern-Skepsis und Zeitzonen-Raterei. |
+
+**Ablauf Ausland:** Mail 1 (Bitte um Telefonat) → nach 5–7 Tagen Mail 2 (kurzer Bump) → nach 14 Tagen Abschluss-Mail. Bei jeder Antwort in der App „Antwort erhalten → anrufen“ tippen: Der Lead wechselt auf Anrufen, Status Rückruf, englisches Skript. Wer eine Uhrzeit nennt, wird exakt dann angerufen (Zeitzone!).
 
 ## Woher die Leads kommen
 
