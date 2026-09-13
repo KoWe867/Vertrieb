@@ -2,7 +2,7 @@
 window.AlwineStore = (function () {
   const K = { leads: "alwine.leads.v1", settings: "alwine.settings.v1", searches: "alwine.searches.v1", accounts: "alwine.accounts.v1", profil: "alwine.profil.v1" };
   const load = (k, d) => { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch { return d; } };
-  const save = (k, v) => localStorage.setItem(k, JSON.stringify(v));
+  const save = (k, v) => { localStorage.setItem(k, JSON.stringify(v)); window.AlwineSync && window.AlwineSync.push(k, v); };
   const today = () => new Date().toISOString().slice(0, 10);
   const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
 

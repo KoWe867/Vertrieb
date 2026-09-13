@@ -22,7 +22,7 @@
   ];
 
   const load = (k, d) => { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch { return d; } };
-  const save = (k, v) => localStorage.setItem(k, JSON.stringify(v));
+  const save = (k, v) => { localStorage.setItem(k, JSON.stringify(v)); window.AlwineSync && window.AlwineSync.push(k, v); };
 
   let leads = load(LS_LEADS, []);
   let settings = Object.assign({ ich: "", telefon: "", zielAnrufe: 40, zielMails: 15, zielTermine: 1, kanalDe: "anruf", kanalIntl: "email" }, load(LS_SETTINGS, {}));
@@ -669,5 +669,7 @@
 
   $("#btn-settings").onclick = openSettings;
   window.addEventListener("hashchange", () => { closeModal(); render(); });
+  // Server vorhanden: Daten von der API übernehmen und neu zeichnen
+  window.addEventListener("alwine:synced", () => { leads = load(LS_LEADS, []); settings = Object.assign(settings, load(LS_SETTINGS, {})); searches = load(LS_SEARCHES, []); render(); });
   render();
 })();

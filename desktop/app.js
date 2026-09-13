@@ -205,7 +205,7 @@
       <h3>Mein Name / Telefon in Skripten</h3><input id="s-ich" value="${esc(st.ich)}" placeholder="Name"><input id="s-tel" value="${esc(st.telefon)}" placeholder="Telefon" style="margin-top:.4rem">
       <button class="btn" id="s-save" style="margin-top:1rem">Speichern</button></div>
       <div class="card"><h3 style="margin-top:0">Daten</h3><p class="small muted">Alle Daten liegen im Browser dieses Rechners (localStorage) und werden mit der Handy-App geteilt, wenn sie vom selben Server geladen wird. Backend mit Datenbank: plans/feature-1.</p>
-      <div class="row wrap"><button class="btn ghost" id="s-backup">Backup (JSON)</button><button class="btn ghost" id="s-restore">Wiederherstellen</button><button class="btn ghost" id="s-auto">Automatische Leads laden</button></div><input type="file" id="s-file" hidden accept="application/json">
+      <div class="row wrap"><button class="btn ghost" id="s-backup">Backup (JSON)</button><button class="btn ghost" id="s-restore">Wiederherstellen</button><button class="btn ghost" id="s-auto">Automatische Leads laden</button><button class="btn soft" id="s-migrate" ${window.AlwineSync?.state.online ? "" : "disabled"}>Browser-Daten auf Server übertragen</button></div><p class="small muted">Server: ${window.AlwineSync?.state.online ? "🟢 verbunden, API ist führend" : "⚪ nicht erreichbar, Daten nur im Browser (Start: ./start.sh)"}</p><input type="file" id="s-file" hidden accept="application/json">
       <h3>Suchaufträge (Automatik)</h3><p class="small muted">Nächtliche Suche steuert <code>suchauftraege.json</code> (GitHub Action). Aktuell ${S.searches().length} lokale Suchaufträge in der Handy-App.</p>
       <h3>Pläne</h3><ul class="small"><li>Feature 0 Desktop-Shell – fertig</li><li>Feature 1 Server-Grundgerüst – offen</li><li>Feature 2 Mail-Center Gmail-API – offen</li><li>Feature 3 KI-Lead-Finder DE – offen</li><li>Feature 4 Anrufe + Report – offen</li></ul></div></div>`;
   }
@@ -214,6 +214,7 @@
     $("#s-backup").onclick = () => { const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([JSON.stringify({ leads: S.leads(), settings: S.settings(), searches: S.searches(), accounts: S.accounts(), profil: S.profil() }, null, 2)], { type: "application/json" })); a.download = `alwine-backup-${S.today()}.json`; a.click(); };
     $("#s-restore").onclick = () => $("#s-file").click();
     $("#s-file").onchange = e => { const f = e.target.files[0]; if (!f) return; const rd = new FileReader(); rd.onload = () => { try { const d = JSON.parse(rd.result); if (Array.isArray(d.leads)) S.saveLeads(d.leads); if (d.settings) S.saveSettings(d.settings); if (d.searches) S.saveSearches(d.searches); if (d.accounts) S.saveAccounts(d.accounts); if (d.profil) S.saveProfil(d.profil); render(); toast("Wiederhergestellt"); } catch { toast("Ungültige Datei"); } }; rd.readAsText(f); };
+    $("#s-migrate").onclick = async () => { try { const r = await window.AlwineSync.migrateLocalToServer(); toast(`Übertragen: ${r.leads.created} neu, ${r.leads.updated} aktualisiert, ${r.accounts} Konten`); await window.AlwineSync.pull(); } catch (e) { toast("Fehler: " + e.message); } };
     $("#s-auto").onclick = async () => { try { const r = await fetch("../data/leads-auto.json?ts=" + Date.now(), { cache: "no-store" }); if (!r.ok) throw 0; const j = await r.json(); const leads = S.leads(); let n = 0; for (const x of j.leads || []) { if (leads.some(l => l.quelle === x.quelle || l.firma.toLowerCase() === (x.firma || "").toLowerCase())) continue; const sc = S.scoreLead(x); leads.unshift(Object.assign({ id: S.uid(), erstellt: new Date().toISOString(), kontakte: [], status: "neu", ansprechpartner: "", naechster: "", kanal: "" }, x, { score: sc.score, klasse: sc.klasse })); n++; } S.saveLeads(leads); toast(n + " neue Leads"); render(); } catch { toast("data/leads-auto.json nicht vorhanden"); } };
   }
 
@@ -225,8 +226,9 @@
     const v = $("#view"); v.innerHTML = view();
     $$("#nav a").forEach(a => a.classList.toggle("active", a.dataset.route === name));
     bind && bind(v);
-    const st = S.settings(); $("#side-status").textContent = (st.ich ? st.ich + " · " : "") + S.leads().length + " Leads · " + S.accounts().length + " Konten";
+    const st = S.settings(), sy = window.AlwineSync?.state; $("#side-status").textContent = (st.ich ? st.ich + " · " : "") + S.leads().length + " Leads · " + S.accounts().length + " Konten · " + (sy?.online ? "🟢 Server" : "⚪ nur Browser");
   }
   window.addEventListener("hashchange", () => { closeModal(); render(); });
+  window.addEventListener("alwine:synced", render);
   render();
 })();

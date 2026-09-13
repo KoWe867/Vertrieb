@@ -1,6 +1,6 @@
 # Alwine Vertrieb — Projektkonventionen
 
-Vertriebssystem für Alwine (Web, Tools, Code, Design, automatisierte Videos für kleine Betriebe). Zwei Oberflächen auf einem lokalen Server: **Handy-App** (`index.html`, Anrufen unterwegs) und **Desktop-Dashboard** (`desktop/`, linke Leiste, Mail-Center, Lead-Finder). Daten heute im Browser-Speicher, Backend (`server/`) kommt feature-weise laut `plans/`.
+Vertriebssystem für Alwine (Web, Tools, Code, Design, automatisierte Videos für kleine Betriebe). Zwei Oberflächen auf einem lokalen Server: **Handy-App** (`index.html`, Anrufen unterwegs) und **Desktop-Dashboard** (`desktop/`, linke Leiste, Mail-Center, Lead-Finder). Backend `server/` (Node, Express, SQLite) liefert API und beide Oberflächen aus; läuft der Server, ist die API führend, sonst bleibt alles im Browser-Speicher (`js/sync.js`).
 
 Start: `/start` (oder `./start.sh`) → http://localhost:3000/desktop/
 
@@ -55,7 +55,8 @@ Tageslimit je Gmail-Konto ist im Service hart durchgesetzt. Standard 300, Warm-u
 index.html, css/, js/          Handy-App (PWA)
 js/data/                       Skripte, Mails, Leistungen, Branchen, Lead-Quellen (DE + EN)
 desktop/                       Desktop-Dashboard (Sidebar, Mail-Center, Lead-Finder, Konten)
-server/                        Backend (ab Feature 1, siehe plans/)
+server/                        Backend: routes, controllers, validators, services, repositories, serializers, db/migrations, test
+js/sync.js                     API-Anbindung beider Oberflächen (Pull beim Start, Push bei Änderung)
 scripts/fetch_leads.py         Nächtliche Lead-Suche (GitHub Action)
 suchauftraege.json             Suchaufträge für die Automatik
 data/leads-auto.json           Ergebnis der Automatik (nur öffentliche Firmendaten)
@@ -66,8 +67,8 @@ plans/feature-N-*.md           Feature-Pläne (Format in backend-conventions)
 
 ## Feature-Reihenfolge
 
-0. Desktop-Shell (fertig): Sidebar, Übersicht, Mail-Center-Ansicht, Konten, Lead-Finder-Ansicht auf localStorage.
-1. Server-Grundgerüst: Express, SQLite, apiResponse, Migration der localStorage-Daten.
+0. Desktop-Shell (fertig): Sidebar, Übersicht, Mail-Center-Ansicht, Konten, Lead-Finder-Ansicht.
+1. Server-Grundgerüst (fertig): Express, SQLite, apiResponse, Sync-Schicht, Import der Browser-Daten. `cd server && npm install && npm test`.
 2. Mail-Center: Gmail-OAuth je Konto, Queue, Tageslimit, Warm-up, Antworten/Bounces lesen.
 3. KI-Lead-Finder DE: 30/Tag, Kriterien Neueröffnung/schwache Präsenz, Claude-Scoring, Ketten-Filter.
 4. Anruf-Integration: Click-to-Call, Wiedervorlagen, Tagesreport.

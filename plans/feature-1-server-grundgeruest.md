@@ -40,7 +40,13 @@ settings(key TEXT PK, value TEXT)
 Keine Kundendaten ins Repo: `data/*.db` in `.gitignore`.
 
 ## ✅ Check vor Abschluss
-- [ ] `npm test` grün, `npm start` liefert `/api/ping`
-- [ ] Unbekannte `/api/*`-Route → JSON-404 in apiResponse-Form
-- [ ] Import eines App-Backups legt alle Leads an, Konten ohne Tokens sichtbar
-- [ ] Handy-App und Desktop zeigen dieselben Zahlen aus der API
+- [x] `npm test` grün (8 Tests), `npm start` liefert `/api/ping`
+- [x] Unbekannte `/api/*`-Route → JSON-404 in apiResponse-Form
+- [x] Import eines App-Backups legt alle Leads an, Konten ohne Tokens sichtbar
+- [x] Handy-App und Desktop zeigen dieselben Zahlen aus der API (Playwright: Desktop schreibt, Handy-App liest, Anruf-Log landet im Report)
+
+## Umsetzung (Stand)
+- `server/`: Express 5, better-sqlite3, zod. Schichten wie in backend-conventions. Statische Dateien des Repos werden mit ausgeliefert, ein Prozess für API + beide Oberflächen.
+- `js/sync.js`: beim Start `GET /api/ping`; wenn erreichbar, werden Leads, Konten, Einstellungen in den localStorage gespiegelt (Event `alwine:synced`), jede Speicherung wird nach 700 ms an die API geschickt (Leads/Konten als Replace-Import, Einstellungen per PUT). Ohne Server bleibt alles im Browser.
+- Einstellungen → „Browser-Daten auf Server übertragen“ für die Einmal-Migration.
+- Auth: ohne `APP_TOKEN` nur localhost, mit Token Bearer-Pflicht.

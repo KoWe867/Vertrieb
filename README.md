@@ -5,9 +5,12 @@ Vertriebssystem für Alwine mit zwei Oberflächen auf einem lokalen Server: **De
 ## Start
 
 ```
-./start.sh            # oder in Claude Code: /start
+cd server && npm install && cd ..   # einmalig, Node 22
+./start.sh                          # oder in Claude Code: /start
 ```
-Öffnet http://localhost:3000/desktop/ (Handy-App unter http://localhost:3000/). Kein Build, keine Abhängigkeiten außer Python 3.
+Öffnet http://localhost:3000/desktop/ (Handy-App unter http://localhost:3000/, API unter /api). Der Node-Server hält die Daten in `data/alwine.db` (SQLite). Ohne `npm install` startet ein einfacher Dateiserver, dann bleiben die Daten im Browser.
+
+Server-Tests: `cd server && npm test`. Konfiguration: `server/.env.example` nach `.env` kopieren (Token, Datenbankpfad, später Gmail- und Claude-Schlüssel).
 
 ## Skills und Pläne (Claude Code)
 

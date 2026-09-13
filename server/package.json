@@ -1,0 +1,20 @@
+{
+  "name": "alwine-vertrieb-server",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Lokaler Server für das Alwine-Vertriebssystem: API, SQLite, später Mail-Queue und KI-Lead-Finder.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "node --test test/*.test.js"
+  },
+  "dependencies": {
+    "better-sqlite3": "^12.4.1",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "zod": "^4.1.12"
+  },
+  "devDependencies": {
+    "supertest": "^7.1.4"
+  }
+}

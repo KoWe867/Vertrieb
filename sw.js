@@ -1,7 +1,7 @@
 // Einfacher Offline-Cache, damit die App auch ohne Netz auf dem Handy läuft.
-const CACHE = "alwine-vertrieb-v2";
+const CACHE = "alwine-vertrieb-v3";
 const ASSETS = [
-  "./", "./index.html", "./css/style.css", "./js/app.js",
+  "./", "./index.html", "./css/style.css", "./js/app.js", "./js/sync.js",
   "./js/data/services.js", "./js/data/industries.js", "./js/data/scripts.js", "./js/data/emails.js", "./js/data/scripts_en.js", "./js/data/emails_en.js", "./js/data/lead_sources.js",
   "./manifest.webmanifest", "./icons/icon-192.png", "./icons/icon-512.png"
 ];
@@ -12,7 +12,7 @@ self.addEventListener("activate", e => {
   e.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)))).then(() => self.clients.claim()));
 });
 self.addEventListener("fetch", e => {
-  if (e.request.method !== "GET") return;
+  if (e.request.method !== "GET" || e.request.url.includes("/api/")) return;
   e.respondWith(
     fetch(e.request).then(res => {
       const copy = res.clone();
