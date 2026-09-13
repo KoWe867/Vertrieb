@@ -1,0 +1,11 @@
+{
+  "_hinweis": "Suchaufträge für die nächtliche automatische Lead-Suche (scripts/fetch_leads.py, GitHub Action). markt: de, at, ch, us, ca, uk, ie, au, nz. branche: handwerk, gastro, praxis, einzelhandel, immobilien, dienstleister, autohaus. max = neue Leads pro Nacht je Auftrag.",
+  "auftraege": [
+    { "markt": "de", "ort": "Berlin", "branche": "handwerk", "radius_km": 20, "max": 15 },
+    { "markt": "de", "ort": "Hamburg", "branche": "praxis", "radius_km": 15, "max": 10 },
+    { "markt": "us", "ort": "Austin, Texas", "branche": "handwerk", "radius_km": 25, "max": 20 },
+    { "markt": "us", "ort": "Denver, Colorado", "branche": "dienstleister", "radius_km": 25, "max": 15 },
+    { "markt": "uk", "ort": "Manchester", "branche": "gastro", "radius_km": 15, "max": 10 },
+    { "markt": "au", "ort": "Brisbane", "branche": "immobilien", "radius_km": 20, "max": 10 }
+  ]
+}

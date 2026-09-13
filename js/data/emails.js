@@ -1,6 +1,25 @@
 // E-Mail-Vorlagen. Platzhalter: {firma}, {ansprechpartner}, {ich}, {branche}, {aufhaenger}, {beobachtung}, {termin}, {telefon}
 window.ALWINE_EMAILS = [
   {
+    id: "erstkontakt",
+    kategorie: "Erstkontakt (nur mit Einwilligung oder per Brief/LinkedIn)",
+    titel: "Erstanschreiben ohne vorheriges Telefonat",
+    betreff: "Kurze Frage zu Ihrer Webseite, {firma}",
+    text: `Guten Tag {ansprechpartner},
+
+ich bin auf {firma} gestoßen und mir ist etwas aufgefallen: {beobachtung}
+
+Wir sind Alwine, ein kleines Software- und Web-Studio. Wir bauen für Betriebe wie Ihren Webseiten, die 24/7 laufen und die Sie trotzdem selbst ändern können, kleine Tools, die Verwaltungsarbeit abnehmen, und automatisierte Videos für Social Media.
+
+Meine Frage: Wäre es für Sie interessant, in 15 Minuten zu sehen, wie das bei einem ähnlichen Betrieb aussieht? Wenn ja, antworten Sie einfach mit einem Wochentag, der Ihnen passt.
+
+Wenn nicht, ist das völlig in Ordnung – ein kurzes „Nein danke“ genügt und Sie hören nichts mehr von mir.
+
+Beste Grüße
+{ich}
+Alwine · {telefon}`
+  },
+  {
     id: "nach_gespraech",
     kategorie: "Nach Telefonat",
     titel: "Terminbestätigung (sofort nach Zusage)",

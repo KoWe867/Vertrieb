@@ -1,8 +1,8 @@
 // Einfacher Offline-Cache, damit die App auch ohne Netz auf dem Handy läuft.
-const CACHE = "alwine-vertrieb-v1";
+const CACHE = "alwine-vertrieb-v2";
 const ASSETS = [
   "./", "./index.html", "./css/style.css", "./js/app.js",
-  "./js/data/services.js", "./js/data/industries.js", "./js/data/scripts.js", "./js/data/emails.js",
+  "./js/data/services.js", "./js/data/industries.js", "./js/data/scripts.js", "./js/data/emails.js", "./js/data/scripts_en.js", "./js/data/emails_en.js", "./js/data/lead_sources.js",
   "./manifest.webmanifest", "./icons/icon-192.png", "./icons/icon-512.png"
 ];
 self.addEventListener("install", e => {

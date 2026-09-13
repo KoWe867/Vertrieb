@@ -8,10 +8,33 @@ Mobiles Akquise-System für Alwine: täglich Firmen anrufen, mit erprobten Skrip
 |---|---|
 | **Heute** | Tagesziele (Anrufe, erreicht, Termine, Mails), fällige Rückrufe, Tagesablauf, Regel des Tages |
 | **Leads** | Firmenliste mit Status, Suche, Filter, CSV-Import/-Export, Verlauf je Firma |
+| **Finden** | Lead-Finder: Firmen weltweit aus OpenStreetMap nach Markt, Stadt, Branche und Radius suchen, filtern (nur mit Telefon, ohne Webseite), auswählen, importieren. Suchaufträge speichern und mit einem Tipp alle ausführen. |
+| **Anschreiben** | E-Mail-Modus für Leads mit Kanal „Anschreiben“: nächster Lead, passende Vorlage nach Kontaktzahl, Mail-App öffnen, Wiedervorlage, nach 3 Mails ohne Antwort automatisch parken. |
 | **Anrufen** | Anruf-Modus: nächster Lead, Tel-Button, Gesprächsleitfaden in Phasen mit ausgefüllten Platzhaltern, Branchen-Opener, passende Leistungen, Einwandbehandlung, Ergebnis mit einem Tipp, automatische Wiedervorlage |
-| **Vorlagen** | Kompletter Gesprächsleitfaden, 10 Einwände mit Antworten, 9 E-Mail-Vorlagen (Terminbestätigung, nach Mailbox, Infos, Angebot, 3× Nachfassen, Erinnerung, Empfehlung), direkt in die Mail-App |
+| **Vorlagen** | Deutsch und Englisch: kompletter Gesprächsleitfaden, 10 Einwände mit Antworten, 9 E-Mail-Vorlagen (Terminbestätigung, nach Mailbox, Infos, Angebot, 3× Nachfassen, Erinnerung, Empfehlung), direkt in die Mail-App |
 | **Wissen** | Leistungen mit Nutzen/Frage/Beispiel/Preisrahmen, 7 Branchenprofile mit Entscheider und bester Anrufzeit, Kennzahlen, Rechtslage |
 | **docs/** | Erprobte Taktiken, komplettes Verkaufsgespräch, Rechtliches, Tages- und Wochenroutine, Lead-Recherche |
+
+## Märkte und Kanäle
+
+Jeder Lead hat einen Markt (Deutschland, Österreich, Schweiz, USA, Kanada, UK, Irland, Australien, Neuseeland, Welt). Daraus folgen Sprache der Skripte und Vorlagen (Deutsch/Englisch) und der Kanal:
+
+| Markt | Standard-Kanal | Skripte |
+|---|---|---|
+| Deutschland, Österreich | Anschreiben (E-Mail) | Deutsch |
+| Alle anderen | Anrufen | Englisch |
+
+Beides ist unter ⚙︎ umstellbar und pro Lead überschreibbar. Rechtlicher Hinweis: In Deutschland ist Kalt-E-Mail ohne Einwilligung unzulässig, die App warnt beim ersten Anschreiben. In den USA und UK ist Kalt-E-Mail an Firmen mit Abmeldemöglichkeit erlaubt. Details in `docs/06-international.md`.
+
+## Automatische Lead-Suche (nachts)
+
+`scripts/fetch_leads.py` liest `suchauftraege.json`, fragt OpenStreetMap ab und schreibt neue Firmen nach `data/leads-auto.json`. Der Workflow `.github/workflows/leads.yml` führt das Mo–Fr um 05:30 Uhr aus und committet das Ergebnis. In der App: Heute → „Automatische Leads laden“ importiert alles Neue.
+
+Suchaufträge anpassen: `suchauftraege.json` bearbeiten (Markt, Ort, Branche, Radius, Maximum je Nacht). Manuell starten: Actions → „Automatische Lead-Suche“ → Run workflow. Lokal testen:
+
+```
+python3 scripts/fetch_leads.py
+```
 
 ## Auf dem Handy nutzen
 
@@ -46,6 +69,8 @@ Alle Texte sind Daten, kein Code:
 - `js/data/emails.js` – E-Mail-Vorlagen
 - `js/data/services.js` – Leistungen, Nutzen, Preisrahmen
 - `js/data/industries.js` – Branchen, Entscheider, beste Zeiten, Opener
+- `js/data/scripts_en.js`, `js/data/emails_en.js` – englische Versionen
+- `js/data/lead_sources.js` – Märkte, OSM-Tag-Zuordnung je Branche, Suche
 
 Platzhalter: `{firma}`, `{ansprechpartner}`, `{ich}`, `{telefon}`, `{branche}`, `{aufhaenger}`, `{opener_branche}`, `{beobachtung}` (1. Zeile der Lead-Notiz), `{termin}`.
 
@@ -56,6 +81,7 @@ Telefonakquise bei Firmen ist in Deutschland bei sachlichem Bezug erlaubt. **Wer
 ## Ausbau (später)
 
 - Gemeinsames Backend (z. B. Supabase) statt localStorage, damit mehrere Personen dieselbe Lead-Liste sehen
-- Automatische Lead-Recherche aus Google Maps / Branchenbüchern
+- Google Places API als zweite Lead-Quelle (bessere Abdeckung, Bewertungen)
+- Ansprechpartner und E-Mails automatisch von Webseiten ziehen
 - Anruf-Statistiken pro Woche und Branche
 - Kalender-Anbindung für Termine
