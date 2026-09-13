@@ -1,0 +1,158 @@
+{
+  "name": "infer_problem_statements",
+  "description": "Identify specific problems grounded in the founder's experience and interests. Call after inferring customer segments. Requires the structured experience and interest data collected earlier.",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "experience": {
+        "type": "array",
+        "items": {
+          "$ref": "#/$defs/ExperienceSegment"
+        },
+        "description": "The founder's structured experience segments."
+      },
+      "interests": {
+        "type": "array",
+        "items": {
+          "$ref": "#/$defs/InterestCluster"
+        },
+        "description": "The founder's interest clusters."
+      },
+      "segments": {
+        "type": "array",
+        "items": {
+          "$ref": "#/$defs/CustomerSegment"
+        },
+        "description": "Previously inferred customer segments, if available."
+      }
+    },
+    "required": ["experience", "interests"],
+    "additionalProperties": false
+  },
+  "output_schema": {
+    "type": "object",
+    "properties": {
+      "problems": {
+        "type": "array",
+        "items": {
+          "$ref": "#/$defs/ProblemStatement"
+        },
+        "description": "Inferred problem statements grounded in founder data."
+      },
+      "summary": {
+        "type": "string",
+        "description": "A brief narrative summary of the inferred problems."
+      }
+    },
+    "required": ["problems"],
+    "additionalProperties": true
+  },
+  "$defs": {
+    "ExperienceSegment": {
+      "type": "object",
+      "properties": {
+        "domain": {
+          "type": "string",
+          "description": "Industry or domain of experience."
+        },
+        "role": {
+          "type": "string",
+          "description": "Role or function held in this domain."
+        },
+        "years": {
+          "type": "number",
+          "description": "Approximate years of experience in this domain."
+        },
+        "insider_knowledge": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Key insights or insider knowledge gained in this domain."
+        }
+      },
+      "required": ["domain", "role", "insider_knowledge"],
+      "additionalProperties": false
+    },
+    "InterestCluster": {
+      "type": "object",
+      "properties": {
+        "theme": {
+          "type": "string",
+          "description": "Central theme of the interest cluster."
+        },
+        "keywords": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Keywords associated with this interest theme."
+        },
+        "intensity": {
+          "type": "string",
+          "enum": ["casual", "moderate", "passionate"],
+          "description": "How strongly the founder feels about this interest."
+        }
+      },
+      "required": ["theme", "keywords", "intensity"],
+      "additionalProperties": false
+    },
+    "CustomerSegment": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the customer segment."
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of who this segment is."
+        },
+        "pain_points": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Key pain points experienced by this segment."
+        },
+        "willingness_to_pay": {
+          "type": "string",
+          "description": "Estimated willingness to pay for a solution."
+        },
+        "accessibility": {
+          "type": "string",
+          "description": "How easily the founder can reach this segment."
+        }
+      },
+      "required": ["name", "description", "pain_points"],
+      "additionalProperties": false
+    },
+    "ProblemStatement": {
+      "type": "object",
+      "properties": {
+        "statement": {
+          "type": "string",
+          "description": "A clear articulation of the problem."
+        },
+        "severity": {
+          "type": "string",
+          "enum": ["low", "medium", "high", "critical"],
+          "description": "How severe this problem is for the affected segment."
+        },
+        "frequency": {
+          "type": "string",
+          "description": "How often the problem occurs."
+        },
+        "existing_solutions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Known existing solutions or workarounds."
+        }
+      },
+      "required": ["statement", "severity"],
+      "additionalProperties": false
+    }
+  }
+}

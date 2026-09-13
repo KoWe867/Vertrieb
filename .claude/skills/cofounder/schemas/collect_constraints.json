@@ -1,0 +1,57 @@
+{
+  "name": "collect_constraints",
+  "description": "Extract the founder's business constraints including budget, time, risk tolerance, and hard limits. Call after collecting experience to understand the founder's boundaries. Expects the founder's response about their resources and limitations.",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "response": {
+        "type": "string",
+        "description": "The founder's natural-language response about their resources and limitations."
+      },
+      "prior_constraints": {
+        "type": "object",
+        "description": "Previously collected constraints to merge with or refine."
+      }
+    },
+    "required": ["response"],
+    "additionalProperties": false
+  },
+  "output_schema": {
+    "type": "object",
+    "properties": {
+      "budget": {
+        "type": "string",
+        "enum": ["bootstrap", "small", "medium", "funded"],
+        "description": "The founder's available budget tier."
+      },
+      "time_commitment": {
+        "type": "string",
+        "enum": ["side_project", "part_time", "full_time"],
+        "description": "How much time the founder can dedicate."
+      },
+      "risk_tolerance": {
+        "type": "string",
+        "enum": ["low", "medium", "high"],
+        "description": "How much risk the founder is willing to accept."
+      },
+      "timeline_months": {
+        "type": "number",
+        "description": "Target timeline in months to reach a milestone."
+      },
+      "hard_constraints": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "Non-negotiable constraints or deal-breakers."
+      },
+      "summary": {
+        "type": "string",
+        "description": "A brief narrative summary of the founder's constraints."
+      }
+    },
+    "required": ["budget", "time_commitment", "risk_tolerance"],
+    "additionalProperties": true
+  },
+  "$defs": {}
+}

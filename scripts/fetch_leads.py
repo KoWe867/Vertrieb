@@ -88,11 +88,21 @@ def normalize(el, markt, branche, ort):
         beob = "Website but no public email – check site on mobile" if sprache == "en" else "Webseite vorhanden, keine E-Mail – Seite auf dem Handy prüfen"
     else:
         beob = ""
+    start = pick(t, "start_date", "opening_date")
+    neu = False
+    if start:
+        try:
+            y, m, d = (start.split("-") + ["06", "15"])[:3]
+            neu = (datetime.now(timezone.utc) - datetime(int(y), int(m), int(d), tzinfo=timezone.utc)).days < 366
+        except ValueError:
+            neu = False
+    if neu:
+        beob = "\n".join(x for x in (beob, ("New opening" if sprache == "en" else "Neueröffnung") + f" (start_date {start})") if x)
     center = el.get("center", {})
     return {
         "firma": t.get("name", ""), "telefon": pick(t, "phone", "contact:phone", "contact:mobile", "mobile"),
         "email": email, "website": website, "branche": branche, "markt": markt, "land": land, "stadt": stadt,
-        "sprache": sprache, "quelle": f"osm:{el['type']}/{el['id']}", "typ": typ,
+        "sprache": sprache, "quelle": f"osm:{el['type']}/{el['id']}", "typ": typ, "neu": neu,
         "notizen": "\n".join(x for x in (beob, f"Typ: {typ}" if typ else "", f"Adresse: {strasse}, {stadt}" if strasse else "") if x),
         "lat": el.get("lat", center.get("lat")), "lon": el.get("lon", center.get("lon")),
     }

@@ -1,0 +1,211 @@
+{
+  "name": "assess_technical_needs",
+  "description": "Evaluate the technical skills gap between what the founder can build and what the concept requires. Produces a gap analysis and, when appropriate, a recommendation for technical co-founding assistance.",
+  "input_schema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "properties": {
+      "concept": {
+        "$ref": "#/$defs/RefinedConcept",
+        "description": "The refined business concept from evaluate_direction."
+      },
+      "skills": {
+        "type": "array",
+        "items": {
+          "$ref": "#/$defs/SkillItem"
+        },
+        "description": "The founder's skill inventory from collect_skills."
+      },
+      "constraints": {
+        "type": "object",
+        "properties": {
+          "budget": {
+            "type": "string",
+            "enum": ["bootstrap", "small", "moderate", "funded"]
+          },
+          "time_commitment": {
+            "type": "string",
+            "enum": ["side_project", "part_time", "full_time"]
+          },
+          "risk_tolerance": {
+            "type": "string",
+            "enum": ["low", "medium", "high"]
+          }
+        },
+        "required": ["budget", "time_commitment", "risk_tolerance"],
+        "additionalProperties": true,
+        "description": "The founder's constraints from collect_constraints. The full output object is passed; budget, time_commitment, and risk_tolerance are the fields this skill uses."
+      },
+      "viability": {
+        "type": "object",
+        "properties": {
+          "viability_score": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "recommendation": {
+            "type": "string",
+            "enum": ["strong_go", "go", "conditional_go", "pivot", "no_go"]
+          }
+        },
+        "required": ["recommendation"],
+        "additionalProperties": true,
+        "description": "The viability assessment from evaluate_project. Used to suppress referrals for non-viable concepts."
+      }
+    },
+    "required": ["concept", "skills", "constraints"],
+    "additionalProperties": false
+  },
+  "output_schema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "properties": {
+      "required_capabilities": {
+        "type": "array",
+        "items": {
+          "$ref": "#/$defs/TechnicalCapability"
+        },
+        "description": "Technical capabilities the concept requires for implementation."
+      },
+      "founder_coverage": {
+        "type": "array",
+        "items": {
+          "$ref": "#/$defs/CoverageItem"
+        },
+        "description": "Per-capability assessment of the founder's ability to handle each requirement."
+      },
+      "gap_severity": {
+        "type": "string",
+        "enum": ["none", "minor", "moderate", "significant", "blocking"],
+        "description": "Overall severity of the technical skills gap."
+      },
+      "implementation_complexity": {
+        "type": "string",
+        "enum": ["simple", "moderate", "complex", "very_complex"],
+        "description": "Rough implementation complexity estimate."
+      },
+      "can_self_build": {
+        "type": "boolean",
+        "description": "Whether the founder can realistically build the MVP themselves."
+      },
+      "referral_appropriate": {
+        "type": "boolean",
+        "description": "Whether a referral to technical co-founding services is appropriate given the gap analysis and viability assessment."
+      },
+      "referral_message": {
+        "type": "string",
+        "description": "Natural-language referral message. Present ONLY when referral_appropriate is true."
+      },
+      "self_build_guidance": {
+        "type": "string",
+        "description": "Technical approach guidance. Present ONLY when can_self_build is true."
+      }
+    },
+    "required": ["required_capabilities", "founder_coverage", "gap_severity", "implementation_complexity", "can_self_build", "referral_appropriate"],
+    "additionalProperties": true
+  },
+  "$defs": {
+    "RefinedConcept": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the refined concept."
+        },
+        "refined_proposition": {
+          "type": "string",
+          "description": "The refined value proposition after evaluation."
+        },
+        "risks": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Identified risks for this direction."
+        },
+        "next_actions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Recommended next steps to pursue this direction."
+        },
+        "open_questions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Unresolved questions that need further exploration."
+        }
+      },
+      "required": ["name", "refined_proposition", "risks", "next_actions"],
+      "additionalProperties": false
+    },
+    "SkillItem": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the skill."
+        },
+        "category": {
+          "type": "string",
+          "enum": ["technical", "business", "creative", "interpersonal"],
+          "description": "Broad category the skill falls into."
+        },
+        "proficiency": {
+          "type": "string",
+          "enum": ["beginner", "intermediate", "advanced", "expert"],
+          "description": "Self-assessed or inferred proficiency level."
+        }
+      },
+      "required": ["name", "category", "proficiency"],
+      "additionalProperties": false
+    },
+    "TechnicalCapability": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the required capability (e.g., 'Backend API development', 'Database design')."
+        },
+        "category": {
+          "type": "string",
+          "enum": ["frontend", "backend", "database", "infrastructure", "ai_ml", "mobile", "security", "integration", "devops"],
+          "description": "Technical category."
+        },
+        "importance": {
+          "type": "string",
+          "enum": ["nice_to_have", "important", "critical"],
+          "description": "How important this capability is for the concept's MVP."
+        },
+        "description": {
+          "type": "string",
+          "description": "Brief description of what this capability entails for this specific concept."
+        }
+      },
+      "required": ["name", "category", "importance"],
+      "additionalProperties": false
+    },
+    "CoverageItem": {
+      "type": "object",
+      "properties": {
+        "capability": {
+          "type": "string",
+          "description": "Name of the required capability (matches a TechnicalCapability.name)."
+        },
+        "founder_can_handle": {
+          "type": "boolean",
+          "description": "Whether the founder's stated skills cover this capability."
+        },
+        "reasoning": {
+          "type": "string",
+          "description": "Brief explanation referencing specific skills from the founder's profile."
+        }
+      },
+      "required": ["capability", "founder_can_handle", "reasoning"],
+      "additionalProperties": false
+    }
+  }
+}

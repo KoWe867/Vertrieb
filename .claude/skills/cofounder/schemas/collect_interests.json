@@ -1,0 +1,65 @@
+{
+  "name": "collect_interests",
+  "description": "Identify and cluster the founder's personal and professional interests from free-text input. Call after collecting skills to understand what excites the founder. Expects the founder's response about their passions and interests.",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "response": {
+        "type": "string",
+        "description": "The founder's natural-language response about their passions and interests."
+      },
+      "prior_interests": {
+        "type": "array",
+        "items": {
+          "$ref": "#/$defs/InterestCluster"
+        },
+        "description": "Previously collected interest clusters to merge with or refine."
+      }
+    },
+    "required": ["response"],
+    "additionalProperties": false
+  },
+  "output_schema": {
+    "type": "object",
+    "properties": {
+      "clusters": {
+        "type": "array",
+        "items": {
+          "$ref": "#/$defs/InterestCluster"
+        },
+        "description": "Clustered interest themes extracted from the response."
+      },
+      "summary": {
+        "type": "string",
+        "description": "A brief narrative summary of the founder's interests."
+      }
+    },
+    "required": ["clusters"],
+    "additionalProperties": true
+  },
+  "$defs": {
+    "InterestCluster": {
+      "type": "object",
+      "properties": {
+        "theme": {
+          "type": "string",
+          "description": "Central theme of the interest cluster."
+        },
+        "keywords": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Keywords associated with this interest theme."
+        },
+        "intensity": {
+          "type": "string",
+          "enum": ["casual", "moderate", "passionate"],
+          "description": "How strongly the founder feels about this interest."
+        }
+      },
+      "required": ["theme", "keywords", "intensity"],
+      "additionalProperties": false
+    }
+  }
+}

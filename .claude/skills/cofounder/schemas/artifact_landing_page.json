@@ -1,0 +1,99 @@
+{
+  "name": "artifact_landing_page",
+  "description": "Generate a complete landing page including headline, copy, features, CTA, and self-contained HTML. Call when the founder wants a landing page for their validated direction. Requires the refined concept.",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "concept": {
+        "$ref": "#/$defs/RefinedConcept",
+        "description": "The refined concept to generate a landing page for."
+      }
+    },
+    "required": ["concept"],
+    "additionalProperties": false
+  },
+  "output_schema": {
+    "type": "object",
+    "properties": {
+      "headline": {
+        "type": "string",
+        "description": "The main headline for the landing page."
+      },
+      "subheadline": {
+        "type": "string",
+        "description": "The supporting subheadline."
+      },
+      "hero_copy": {
+        "type": "string",
+        "description": "The hero section body copy."
+      },
+      "features": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "title": {
+              "type": "string",
+              "description": "Feature title."
+            },
+            "description": {
+              "type": "string",
+              "description": "Feature description."
+            }
+          },
+          "required": ["title", "description"],
+          "additionalProperties": false
+        },
+        "description": "List of features to highlight."
+      },
+      "cta_text": {
+        "type": "string",
+        "description": "Call-to-action button text."
+      },
+      "html": {
+        "type": "string",
+        "description": "Complete standalone HTML for the landing page."
+      }
+    },
+    "required": ["headline", "subheadline", "features", "cta_text", "html"],
+    "additionalProperties": true
+  },
+  "$defs": {
+    "RefinedConcept": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the refined concept."
+        },
+        "refined_proposition": {
+          "type": "string",
+          "description": "The refined value proposition after evaluation."
+        },
+        "risks": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Identified risks for this direction."
+        },
+        "next_actions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Recommended next steps to pursue this direction."
+        },
+        "open_questions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Unresolved questions that need further exploration."
+        }
+      },
+      "required": ["name", "refined_proposition", "risks", "next_actions"],
+      "additionalProperties": false
+    }
+  }
+}

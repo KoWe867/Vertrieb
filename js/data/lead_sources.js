@@ -71,12 +71,14 @@ window.ALWINE_SOURCES = (function () {
     const stadt = pick(t, "addr:city") || ort;
     const strasse = [t["addr:street"], t["addr:housenumber"]].filter(Boolean).join(" ");
     const typ = pick(t, "craft", "amenity", "healthcare", "shop", "office", "tourism");
+    const start = pick(t, "start_date", "opening_date", "opening_date:business");
+    const neu = !!start && (Date.now() - new Date(start.length === 4 ? start + "-06-01" : start.length === 7 ? start + "-15" : start).getTime()) < 366 * 86400e3;
     const beobachtung = !website ? (market.sprache === "en" ? "No website listed – likely no or weak online presence" : "Keine Webseite hinterlegt – vermutlich kein oder schwacher Online-Auftritt")
       : !email ? (market.sprache === "en" ? "Website but no public email – check site on mobile" : "Webseite vorhanden, keine E-Mail – Seite auf dem Handy prüfen") : "";
     return {
       firma: t.name, telefon: phone, email, website, branche, markt: market.id, land: market.land, stadt, strasse,
       sprache: market.sprache, kanal: market.kanal, quelle: "osm:" + el.type + "/" + el.id, typ,
-      notizen: [beobachtung, typ ? "Typ: " + typ : "", strasse ? "Adresse: " + strasse + ", " + stadt : ""].filter(Boolean).join("\n"),
+      neu, notizen: [beobachtung, neu ? (market.sprache === "en" ? "New opening (start_date " + start + ")" : "Neueröffnung (start_date " + start + ")") : "", typ ? "Typ: " + typ : "", strasse ? "Adresse: " + strasse + ", " + stadt : ""].filter(Boolean).join("\n"),
       lat: el.lat ?? el.center?.lat, lon: el.lon ?? el.center?.lon
     };
   }

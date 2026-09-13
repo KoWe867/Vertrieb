@@ -1,0 +1,262 @@
+[
+  {
+    "skill": "collect_skills",
+    "category": "elicitation",
+    "purpose": "Extract and structure the founder's skills from free-text input into a categorized skill inventory.",
+    "inputs": {
+      "response": "string (required) - The founder's free-text answer describing what they are good at"
+    },
+    "outputs": {
+      "items": "SkillItem[] - Array of structured skill objects with name, proficiency level, and years of experience",
+      "summary": "string - A concise narrative summary of the founder's skill profile"
+    },
+    "when_to_call": "First step in the flow. Call this to understand what the founder is good at before exploring interests or experience."
+  },
+  {
+    "skill": "collect_interests",
+    "category": "elicitation",
+    "purpose": "Cluster the founder's interests and passions into thematic groups that reveal motivation drivers.",
+    "inputs": {
+      "response": "string (required) - The founder's free-text answer describing what excites them"
+    },
+    "outputs": {
+      "clusters": "InterestCluster[] - Array of interest clusters, each with a theme label and constituent interests",
+      "summary": "string - A concise narrative summary of the founder's interest landscape"
+    },
+    "when_to_call": "After collecting skills. Call this to understand what excites the founder and where their intrinsic motivation lies."
+  },
+  {
+    "skill": "collect_experience",
+    "category": "elicitation",
+    "purpose": "Parse the founder's professional experience into structured segments capturing roles, industries, and domain expertise.",
+    "inputs": {
+      "response": "string (required) - The founder's free-text answer describing their professional background"
+    },
+    "outputs": {
+      "segments": "ExperienceSegment[] - Array of experience segments with role, industry, duration, and key accomplishments",
+      "summary": "string - A concise narrative summary of the founder's professional trajectory"
+    },
+    "when_to_call": "After collecting interests. Call this to map the founder's professional background and identify insider-knowledge markets."
+  },
+  {
+    "skill": "collect_constraints",
+    "category": "elicitation",
+    "purpose": "Extract the founder's business constraints including budget, time, risk tolerance, and hard limits that bound the solution space.",
+    "inputs": {
+      "response": "string (required) - The founder's free-text answer describing their constraints and limitations"
+    },
+    "outputs": {
+      "budget": "enum('bootstrap' | 'small' | 'moderate' | 'funded') - Available capital range",
+      "time_commitment": "enum('side_project' | 'part_time' | 'full_time') - Hours per week the founder can dedicate",
+      "risk_tolerance": "enum('low' | 'medium' | 'high') - How much uncertainty the founder can absorb",
+      "timeline_months": "number - Target months to first revenue or key milestone",
+      "hard_constraints": "string[] - Non-negotiable limitations such as geography, industry exclusions, or regulatory requirements"
+    },
+    "when_to_call": "After collecting experience. Call this to understand the boundaries within which any business idea must operate."
+  },
+  {
+    "skill": "infer_customer_segments",
+    "category": "inference",
+    "purpose": "Derive 2-5 target customer segments by cross-referencing the founder's skills and experience with market opportunities.",
+    "inputs": {
+      "skills": "SkillItem[] (required) - The founder's structured skill inventory",
+      "experience": "ExperienceSegment[] (required) - The founder's structured experience segments",
+      "interests": "InterestCluster[] (optional) - The founder's interest clusters, used to weight segments toward passion areas"
+    },
+    "outputs": {
+      "segments": "CustomerSegment[] - Array of 2-5 customer segments with name, description, pain points, and founder-fit score"
+    },
+    "when_to_call": "After all elicitation is complete. Call this to identify who the founder can best serve based on their unique background."
+  },
+  {
+    "skill": "infer_problem_statements",
+    "category": "inference",
+    "purpose": "Identify specific, validated problem statements grounded in the founder's direct experience and interest areas.",
+    "inputs": {
+      "experience": "ExperienceSegment[] (required) - The founder's structured experience segments",
+      "interests": "InterestCluster[] (required) - The founder's interest clusters",
+      "segments": "CustomerSegment[] (optional) - Previously inferred customer segments to anchor problems to specific audiences"
+    },
+    "outputs": {
+      "problems": "ProblemStatement[] - Array of problem statements with description, affected segment, severity, and founder-insight score"
+    },
+    "when_to_call": "After inferring customer segments. Call this to ground business problems in the founder's lived experience."
+  },
+  {
+    "skill": "infer_value_proposition",
+    "category": "inference",
+    "purpose": "Compose a clear value proposition that connects the founder's skills to identified problems and target segments.",
+    "inputs": {
+      "skills": "SkillItem[] (required) - The founder's structured skill inventory",
+      "problems": "ProblemStatement[] (required) - Previously inferred problem statements",
+      "segments": "CustomerSegment[] (required) - Previously inferred customer segments"
+    },
+    "outputs": {
+      "proposition": "string - The value proposition statement",
+      "for_segment": "string - The primary target segment this proposition addresses",
+      "solves_problem": "string - The core problem this proposition solves"
+    },
+    "when_to_call": "After inferring problem statements. Call this to articulate how the founder's skills solve a real problem for a specific audience."
+  },
+  {
+    "skill": "infer_business_models",
+    "category": "inference",
+    "purpose": "Determine feasible revenue and delivery models ranked by fit with the founder's constraints, skills, and target segments.",
+    "inputs": {
+      "constraints": "object (required) - The founder's structured constraints (budget, time, risk, timeline, hard limits)",
+      "skills": "SkillItem[] (required) - The founder's structured skill inventory",
+      "segments": "CustomerSegment[] (required) - Previously inferred customer segments"
+    },
+    "outputs": {
+      "models": "BusinessModel[] - Array of business models with type, revenue mechanism, estimated margin, startup cost, and fit score"
+    },
+    "when_to_call": "After inferring the value proposition. Call this to find revenue models that are feasible within the founder's constraints."
+  },
+  {
+    "skill": "generate_business_directions",
+    "category": "synthesis",
+    "purpose": "Synthesize all prior elicitation and inference outputs into 3-5 distinct, actionable business directions the founder could pursue.",
+    "inputs": {
+      "skills": "SkillItem[] (required) - The founder's structured skill inventory",
+      "interests": "InterestCluster[] (required) - The founder's interest clusters",
+      "experience": "ExperienceSegment[] (required) - The founder's structured experience segments",
+      "constraints": "object (required) - The founder's structured constraints",
+      "segments": "CustomerSegment[] (required) - Previously inferred customer segments",
+      "problems": "ProblemStatement[] (required) - Previously inferred problem statements",
+      "value_proposition": "object (required) - Previously inferred value proposition",
+      "business_models": "BusinessModel[] (required) - Previously inferred business models"
+    },
+    "outputs": {
+      "directions": "Direction[] - Array of 3-5 business directions, each with a name, one-liner, target segment, model, estimated effort, and confidence score"
+    },
+    "when_to_call": "After all inference steps are complete. Call this to synthesize everything into concrete, comparable business concepts."
+  },
+  {
+    "skill": "evaluate_direction",
+    "category": "synthesis",
+    "purpose": "Deeply evaluate and refine the founder's selected direction into a validated concept with risks, assumptions, and next actions.",
+    "inputs": {
+      "direction": "Direction (required) - The direction the founder selected from the generated list",
+      "constraints": "object (optional) - The founder's constraints, used to stress-test feasibility",
+      "skills": "SkillItem[] (optional) - The founder's skills, used to identify capability gaps"
+    },
+    "outputs": {
+      "concept": "RefinedConcept - A detailed concept object with description, target customer, value proposition, business model, key risks, assumptions to validate, and recommended next actions"
+    },
+    "when_to_call": "After the founder picks one direction from the generated list. Call this to refine the chosen direction into a concrete, actionable concept."
+  },
+  {
+    "skill": "evaluate_project",
+    "category": "synthesis",
+    "purpose": "Produce a structured viability assessment of the business concept with a frank go/no-go recommendation, strengths, weaknesses, and key assumptions to validate.",
+    "inputs": {
+      "concept": "RefinedConcept (required) - The refined business concept from evaluate_direction",
+      "constraints": "object (required) - The founder's budget, time_commitment, and risk_tolerance",
+      "skills": "SkillItem[] (optional) - The founder's skills for assessing founder-market fit",
+      "segments": "CustomerSegment[] (optional) - Target segments for assessing market viability",
+      "business_models": "BusinessModel[] (optional) - Candidate models for assessing revenue feasibility"
+    },
+    "outputs": {
+      "viability_score": "number (0-1) - Overall viability assessment",
+      "recommendation": "enum (strong_go|go|conditional_go|pivot|no_go) - Clear recommendation",
+      "strengths": "string[] - Key strengths of the concept",
+      "weaknesses": "string[] - Key weaknesses or concerns",
+      "key_assumptions": "string[] - Critical assumptions that must be validated",
+      "suggested_validation_steps": "string[] - Concrete steps to validate before committing",
+      "summary": "string - Frank 2-3 sentence overall assessment"
+    },
+    "when_to_call": "After evaluating the selected direction. Call this to give the founder an honest viability assessment before generating artifacts."
+  },
+  {
+    "skill": "assess_technical_needs",
+    "category": "assessment",
+    "purpose": "Evaluate the technical skills gap between founder capabilities and concept requirements. Conditionally recommend technical co-founding assistance.",
+    "inputs": {
+      "concept": "RefinedConcept (required) - From evaluate_direction",
+      "skills": "SkillItem[] (required) - From collect_skills",
+      "constraints": "object (required) - From collect_constraints",
+      "viability": "object (optional) - From evaluate_project"
+    },
+    "outputs": {
+      "required_capabilities": "TechnicalCapability[] - What the concept needs technically",
+      "founder_coverage": "CoverageItem[] - Per-capability gap analysis",
+      "gap_severity": "enum - Overall gap severity",
+      "implementation_complexity": "enum - Implementation difficulty estimate",
+      "can_self_build": "boolean - Whether the founder can build it",
+      "referral_appropriate": "boolean - Whether to recommend technical assistance",
+      "referral_message": "string (conditional) - Natural referral text",
+      "self_build_guidance": "string (conditional) - Build-it-yourself guidance"
+    },
+    "when_to_call": "After the viability assessment (Step 11), before artifacts. Skip if viability recommendation is pivot or no_go."
+  },
+  {
+    "skill": "artifact_landing_page",
+    "category": "artifact",
+    "purpose": "Generate a complete landing page with headline, subheadline, feature list, call-to-action, and ready-to-use HTML.",
+    "inputs": {
+      "concept": "RefinedConcept (required) - The validated and refined business concept"
+    },
+    "outputs": {
+      "headline": "string - Primary headline for the landing page",
+      "subheadline": "string - Supporting subheadline",
+      "features": "string[] - List of key features or benefits to display",
+      "cta_text": "string - Call-to-action button text",
+      "html": "string - Complete, self-contained HTML for the landing page"
+    },
+    "when_to_call": "When the founder wants a landing page for the validated concept, typically to test interest or share the idea."
+  },
+  {
+    "skill": "artifact_pitch_deck",
+    "category": "artifact",
+    "purpose": "Generate a structured pitch deck with slides covering problem, solution, market, model, team, and ask.",
+    "inputs": {
+      "concept": "RefinedConcept (required) - The validated and refined business concept"
+    },
+    "outputs": {
+      "slides": "PitchSlide[] - Array of slide objects, each with a title, bullet points, and optional speaker notes"
+    },
+    "when_to_call": "When the founder wants a presentation for investors, partners, or co-founders."
+  },
+  {
+    "skill": "artifact_elevator_pitch",
+    "category": "artifact",
+    "purpose": "Generate concise verbal pitches in 30-second and 60-second variants plus a memorable opening hook.",
+    "inputs": {
+      "concept": "RefinedConcept (required) - The validated and refined business concept"
+    },
+    "outputs": {
+      "pitch_30s": "string - A 30-second elevator pitch",
+      "pitch_60s": "string - A 60-second elevator pitch with more detail",
+      "hook": "string - A memorable one-line opening hook"
+    },
+    "when_to_call": "When the founder wants a verbal pitch to practice for networking events, meetings, or casual conversations."
+  },
+  {
+    "skill": "artifact_competitive_analysis",
+    "category": "artifact",
+    "purpose": "Analyze the competitive landscape by identifying key competitors, their strengths and weaknesses, and the founder's differentiation.",
+    "inputs": {
+      "concept": "RefinedConcept (required) - The validated and refined business concept"
+    },
+    "outputs": {
+      "competitors": "Competitor[] - Array of competitor objects with name, description, strengths, weaknesses, and market position",
+      "our_differentiation": "string - A clear statement of how the founder's concept is uniquely positioned against competitors"
+    },
+    "when_to_call": "When the founder wants to understand the competitive landscape and articulate why their approach is different."
+  },
+  {
+    "skill": "artifact_financial_sketch",
+    "category": "artifact",
+    "purpose": "Produce rough financial projections including revenue estimates, cost estimates, and break-even timeline based on the business model.",
+    "inputs": {
+      "concept": "RefinedConcept (required) - The validated and refined business concept"
+    },
+    "outputs": {
+      "assumptions": "string[] - Key assumptions underlying the financial projections",
+      "monthly_revenue_estimate": "string - Estimated monthly revenue range with explanation",
+      "monthly_cost_estimate": "string - Estimated monthly costs with breakdown",
+      "break_even_months": "number - Estimated months to break even under stated assumptions"
+    },
+    "when_to_call": "When the founder wants rough financial estimates to evaluate viability and plan resource allocation."
+  }
+]

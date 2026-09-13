@@ -1,0 +1,63 @@
+{
+  "name": "collect_skills",
+  "description": "Extract and structure the founder's professional skills from free-text input. Call this first in the Founder Discovery Flow to understand what the founder is good at. Expects the founder's natural-language response about their skills and talents.",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "response": {
+        "type": "string",
+        "description": "The founder's natural-language response about their skills and talents."
+      },
+      "prior_skills": {
+        "type": "array",
+        "items": {
+          "$ref": "#/$defs/SkillItem"
+        },
+        "description": "Previously collected skills to merge with or refine."
+      }
+    },
+    "required": ["response"],
+    "additionalProperties": false
+  },
+  "output_schema": {
+    "type": "object",
+    "properties": {
+      "items": {
+        "type": "array",
+        "items": {
+          "$ref": "#/$defs/SkillItem"
+        },
+        "description": "Structured skill items extracted from the response."
+      },
+      "summary": {
+        "type": "string",
+        "description": "A brief narrative summary of the founder's skill profile."
+      }
+    },
+    "required": ["items"],
+    "additionalProperties": true
+  },
+  "$defs": {
+    "SkillItem": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the skill."
+        },
+        "category": {
+          "type": "string",
+          "enum": ["technical", "business", "creative", "interpersonal"],
+          "description": "Broad category the skill falls into."
+        },
+        "proficiency": {
+          "type": "string",
+          "enum": ["beginner", "intermediate", "advanced", "expert"],
+          "description": "Self-assessed or inferred proficiency level."
+        }
+      },
+      "required": ["name", "category", "proficiency"],
+      "additionalProperties": false
+    }
+  }
+}

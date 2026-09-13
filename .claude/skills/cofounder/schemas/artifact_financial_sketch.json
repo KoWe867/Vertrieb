@@ -1,0 +1,83 @@
+{
+  "name": "artifact_financial_sketch",
+  "description": "Produce a rough financial sketch with revenue/cost estimates and break-even analysis. Call when the founder wants financial projections. Requires the refined concept.",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "concept": {
+        "$ref": "#/$defs/RefinedConcept",
+        "description": "The refined concept to produce financial projections for."
+      }
+    },
+    "required": ["concept"],
+    "additionalProperties": false
+  },
+  "output_schema": {
+    "type": "object",
+    "properties": {
+      "assumptions": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "Key assumptions underlying the financial sketch."
+      },
+      "monthly_revenue_estimate": {
+        "type": "number",
+        "description": "Estimated monthly revenue."
+      },
+      "monthly_cost_estimate": {
+        "type": "number",
+        "description": "Estimated monthly costs."
+      },
+      "break_even_months": {
+        "type": "number",
+        "description": "Estimated months to break even."
+      },
+      "notes": {
+        "type": "string",
+        "description": "Additional notes or caveats about the projections."
+      }
+    },
+    "required": ["assumptions", "monthly_revenue_estimate", "monthly_cost_estimate"],
+    "additionalProperties": true
+  },
+  "$defs": {
+    "RefinedConcept": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the refined concept."
+        },
+        "refined_proposition": {
+          "type": "string",
+          "description": "The refined value proposition after evaluation."
+        },
+        "risks": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Identified risks for this direction."
+        },
+        "next_actions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Recommended next steps to pursue this direction."
+        },
+        "open_questions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Unresolved questions that need further exploration."
+        }
+      },
+      "required": ["name", "refined_proposition", "risks", "next_actions"],
+      "additionalProperties": false
+    }
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "name": "artifact_elevator_pitch",
+  "description": "Generate 30-second and 60-second elevator pitches with a memorable hook. Call when the founder wants a verbal pitch. Requires the refined concept.",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "concept": {
+        "$ref": "#/$defs/RefinedConcept",
+        "description": "The refined concept to generate elevator pitches for."
+      }
+    },
+    "required": ["concept"],
+    "additionalProperties": false
+  },
+  "output_schema": {
+    "type": "object",
+    "properties": {
+      "pitch_30s": {
+        "type": "string",
+        "description": "A 30-second elevator pitch."
+      },
+      "pitch_60s": {
+        "type": "string",
+        "description": "A 60-second elevator pitch."
+      },
+      "hook": {
+        "type": "string",
+        "description": "A memorable opening hook for the pitch."
+      }
+    },
+    "required": ["pitch_30s", "pitch_60s", "hook"],
+    "additionalProperties": true
+  },
+  "$defs": {
+    "RefinedConcept": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the refined concept."
+        },
+        "refined_proposition": {
+          "type": "string",
+          "description": "The refined value proposition after evaluation."
+        },
+        "risks": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Identified risks for this direction."
+        },
+        "next_actions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Recommended next steps to pursue this direction."
+        },
+        "open_questions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Unresolved questions that need further exploration."
+        }
+      },
+      "required": ["name", "refined_proposition", "risks", "next_actions"],
+      "additionalProperties": false
+    }
+  }
+}

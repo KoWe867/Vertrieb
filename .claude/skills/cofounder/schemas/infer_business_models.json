@@ -1,0 +1,143 @@
+{
+  "name": "infer_business_models",
+  "description": "Determine feasible revenue models based on constraints, skills, and target segments. Call after inferring the value proposition. Requires constraints, skills, and segments from prior steps.",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "constraints": {
+        "type": "object",
+        "properties": {
+          "budget": {
+            "type": "string",
+            "enum": ["bootstrap", "small", "medium", "funded"],
+            "description": "The founder's available budget tier."
+          },
+          "time_commitment": {
+            "type": "string",
+            "enum": ["side_project", "part_time", "full_time"],
+            "description": "How much time the founder can dedicate."
+          },
+          "risk_tolerance": {
+            "type": "string",
+            "enum": ["low", "medium", "high"],
+            "description": "How much risk the founder is willing to accept."
+          }
+        },
+        "required": ["budget", "time_commitment", "risk_tolerance"],
+        "additionalProperties": true,
+        "description": "The founder's business constraints."
+      },
+      "skills": {
+        "type": "array",
+        "items": {
+          "$ref": "#/$defs/SkillItem"
+        },
+        "description": "The founder's structured skill items."
+      },
+      "segments": {
+        "type": "array",
+        "items": {
+          "$ref": "#/$defs/CustomerSegment"
+        },
+        "description": "Inferred customer segments from prior step."
+      }
+    },
+    "required": ["constraints", "skills", "segments"],
+    "additionalProperties": false
+  },
+  "output_schema": {
+    "type": "object",
+    "properties": {
+      "models": {
+        "type": "array",
+        "items": {
+          "$ref": "#/$defs/BusinessModel"
+        },
+        "description": "Feasible business models ranked by fit."
+      },
+      "summary": {
+        "type": "string",
+        "description": "A brief narrative summary of the recommended models."
+      }
+    },
+    "required": ["models"],
+    "additionalProperties": true
+  },
+  "$defs": {
+    "SkillItem": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the skill."
+        },
+        "category": {
+          "type": "string",
+          "enum": ["technical", "business", "creative", "interpersonal"],
+          "description": "Broad category the skill falls into."
+        },
+        "proficiency": {
+          "type": "string",
+          "enum": ["beginner", "intermediate", "advanced", "expert"],
+          "description": "Self-assessed or inferred proficiency level."
+        }
+      },
+      "required": ["name", "category", "proficiency"],
+      "additionalProperties": false
+    },
+    "CustomerSegment": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the customer segment."
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of who this segment is."
+        },
+        "pain_points": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Key pain points experienced by this segment."
+        },
+        "willingness_to_pay": {
+          "type": "string",
+          "description": "Estimated willingness to pay for a solution."
+        },
+        "accessibility": {
+          "type": "string",
+          "description": "How easily the founder can reach this segment."
+        }
+      },
+      "required": ["name", "description", "pain_points"],
+      "additionalProperties": false
+    },
+    "BusinessModel": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["saas", "marketplace", "service", "product", "content", "consulting", "freemium", "licensing"],
+          "description": "The business model archetype."
+        },
+        "revenue_mechanism": {
+          "type": "string",
+          "description": "How this model generates revenue."
+        },
+        "fit_score": {
+          "type": "number",
+          "description": "How well this model fits the founder's profile (0-1)."
+        },
+        "rationale": {
+          "type": "string",
+          "description": "Why this model is recommended for this founder."
+        }
+      },
+      "required": ["type", "revenue_mechanism", "fit_score", "rationale"],
+      "additionalProperties": false
+    }
+  }
+}

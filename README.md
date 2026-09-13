@@ -1,6 +1,17 @@
 # Alwine Vertrieb
 
-Mobiles Akquise-System für Alwine: täglich Firmen anrufen, mit erprobten Skripten sprechen, Ergebnisse festhalten, passende E-Mails senden. Läuft als Web-App direkt auf dem Handy, ohne Installation, ohne Backend.
+Vertriebssystem für Alwine mit zwei Oberflächen auf einem lokalen Server: **Desktop-Dashboard** (`desktop/`: Sidebar, Übersicht, Leads & Finder, Mail-Center mit mehreren Gmail-Konten, Konten, Profil, Einstellungen) und **Handy-App** (`index.html`: Anrufen und Anschreiben unterwegs). Beide teilen dieselben Daten.
+
+## Start
+
+```
+./start.sh            # oder in Claude Code: /start
+```
+Öffnet http://localhost:3000/desktop/ (Handy-App unter http://localhost:3000/). Kein Build, keine Abhängigkeiten außer Python 3.
+
+## Skills und Pläne (Claude Code)
+
+`.claude/skills/` bündelt die Arbeitsweise: `vertrieb-workflow` (Tagesablauf, zuerst lesen), `backend-conventions` (Architektur, Plan-Format), `sales-agent-patterns` (Lead-Scoring Hot/Warm/Cold), `cofounder` (`/cofounder`, Positionierung und Pitch), `video-prompts` (Kundenvideos). Feature-Pläne in `plans/` (0 Desktop-Shell fertig, 1 Server, 2 Mail-Center Gmail-API, 3 KI-Lead-Finder 30/Tag, 4 Anrufe/Report). Konventionen in `CLAUDE.md`.
 
 ## Was drin ist
 

@@ -1,0 +1,97 @@
+{
+  "name": "artifact_competitive_analysis",
+  "description": "Analyze competitors and articulate the venture's differentiation. Call when the founder wants competitive positioning. Requires the refined concept.",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "concept": {
+        "$ref": "#/$defs/RefinedConcept",
+        "description": "The refined concept to analyze competitive positioning for."
+      }
+    },
+    "required": ["concept"],
+    "additionalProperties": false
+  },
+  "output_schema": {
+    "type": "object",
+    "properties": {
+      "competitors": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "Competitor name."
+            },
+            "positioning": {
+              "type": "string",
+              "description": "How this competitor positions itself in the market."
+            },
+            "strengths": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Competitor strengths."
+            },
+            "weaknesses": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Competitor weaknesses."
+            }
+          },
+          "required": ["name", "positioning"],
+          "additionalProperties": false
+        },
+        "description": "List of competitors with positioning analysis."
+      },
+      "our_differentiation": {
+        "type": "string",
+        "description": "How the founder's venture differentiates from competitors."
+      }
+    },
+    "required": ["competitors", "our_differentiation"],
+    "additionalProperties": true
+  },
+  "$defs": {
+    "RefinedConcept": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the refined concept."
+        },
+        "refined_proposition": {
+          "type": "string",
+          "description": "The refined value proposition after evaluation."
+        },
+        "risks": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Identified risks for this direction."
+        },
+        "next_actions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Recommended next steps to pursue this direction."
+        },
+        "open_questions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Unresolved questions that need further exploration."
+        }
+      },
+      "required": ["name", "refined_proposition", "risks", "next_actions"],
+      "additionalProperties": false
+    }
+  }
+}

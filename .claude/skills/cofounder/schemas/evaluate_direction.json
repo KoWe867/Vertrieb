@@ -1,0 +1,135 @@
+{
+  "name": "evaluate_direction",
+  "description": "Refine a selected business direction, identify risks, and define next actions. Call after the founder selects one direction. Requires the chosen direction object.",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "direction": {
+        "$ref": "#/$defs/Direction",
+        "description": "The business direction the founder selected."
+      },
+      "constraints": {
+        "type": "object",
+        "description": "The founder's business constraints, if available."
+      },
+      "skills": {
+        "type": "array",
+        "items": {
+          "$ref": "#/$defs/SkillItem"
+        },
+        "description": "The founder's structured skill items, if available."
+      }
+    },
+    "required": ["direction"],
+    "additionalProperties": false
+  },
+  "output_schema": {
+    "type": "object",
+    "properties": {
+      "concept": {
+        "$ref": "#/$defs/RefinedConcept",
+        "description": "The refined concept with risks and next actions."
+      }
+    },
+    "required": ["concept"],
+    "additionalProperties": true
+  },
+  "$defs": {
+    "Direction": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Short name for this business direction."
+        },
+        "one_liner": {
+          "type": "string",
+          "description": "One-sentence summary of the direction."
+        },
+        "target_segment": {
+          "type": "string",
+          "description": "The primary customer segment targeted."
+        },
+        "business_model": {
+          "type": "string",
+          "description": "The recommended business model type."
+        },
+        "key_advantage": {
+          "type": "string",
+          "description": "The founder's key advantage in pursuing this direction."
+        },
+        "feasibility_score": {
+          "type": "number",
+          "description": "How feasible this direction is (0-1)."
+        },
+        "market_score": {
+          "type": "number",
+          "description": "Estimated market opportunity score (0-1)."
+        },
+        "founder_fit_score": {
+          "type": "number",
+          "description": "How well this direction fits the founder (0-1)."
+        }
+      },
+      "required": ["name", "one_liner", "target_segment", "business_model", "feasibility_score", "founder_fit_score"],
+      "additionalProperties": false
+    },
+    "SkillItem": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the skill."
+        },
+        "category": {
+          "type": "string",
+          "enum": ["technical", "business", "creative", "interpersonal"],
+          "description": "Broad category the skill falls into."
+        },
+        "proficiency": {
+          "type": "string",
+          "enum": ["beginner", "intermediate", "advanced", "expert"],
+          "description": "Self-assessed or inferred proficiency level."
+        }
+      },
+      "required": ["name", "category", "proficiency"],
+      "additionalProperties": false
+    },
+    "RefinedConcept": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the refined concept."
+        },
+        "refined_proposition": {
+          "type": "string",
+          "description": "The refined value proposition after evaluation."
+        },
+        "risks": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Identified risks for this direction."
+        },
+        "next_actions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Recommended next steps to pursue this direction."
+        },
+        "open_questions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Unresolved questions that need further exploration."
+        }
+      },
+      "required": ["name", "refined_proposition", "risks", "next_actions"],
+      "additionalProperties": false
+    }
+  }
+}

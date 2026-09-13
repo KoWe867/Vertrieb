@@ -1,0 +1,135 @@
+{
+  "name": "infer_value_proposition",
+  "description": "Compose a value proposition connecting founder skills to a specific problem for a target segment. Call after inferring problems. Requires skills, problems, and segments from prior steps.",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "skills": {
+        "type": "array",
+        "items": {
+          "$ref": "#/$defs/SkillItem"
+        },
+        "description": "The founder's structured skill items."
+      },
+      "problems": {
+        "type": "array",
+        "items": {
+          "$ref": "#/$defs/ProblemStatement"
+        },
+        "description": "Inferred problem statements from prior step."
+      },
+      "segments": {
+        "type": "array",
+        "items": {
+          "$ref": "#/$defs/CustomerSegment"
+        },
+        "description": "Inferred customer segments from prior step."
+      }
+    },
+    "required": ["skills", "problems", "segments"],
+    "additionalProperties": false
+  },
+  "output_schema": {
+    "type": "object",
+    "properties": {
+      "proposition": {
+        "type": "string",
+        "description": "The composed value proposition statement."
+      },
+      "for_segment": {
+        "type": "string",
+        "description": "The target customer segment this proposition addresses."
+      },
+      "solves_problem": {
+        "type": "string",
+        "description": "The specific problem this proposition solves."
+      },
+      "unique_advantage": {
+        "type": "string",
+        "description": "What makes the founder uniquely positioned to deliver this."
+      }
+    },
+    "required": ["proposition", "for_segment", "solves_problem"],
+    "additionalProperties": true
+  },
+  "$defs": {
+    "SkillItem": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the skill."
+        },
+        "category": {
+          "type": "string",
+          "enum": ["technical", "business", "creative", "interpersonal"],
+          "description": "Broad category the skill falls into."
+        },
+        "proficiency": {
+          "type": "string",
+          "enum": ["beginner", "intermediate", "advanced", "expert"],
+          "description": "Self-assessed or inferred proficiency level."
+        }
+      },
+      "required": ["name", "category", "proficiency"],
+      "additionalProperties": false
+    },
+    "ProblemStatement": {
+      "type": "object",
+      "properties": {
+        "statement": {
+          "type": "string",
+          "description": "A clear articulation of the problem."
+        },
+        "severity": {
+          "type": "string",
+          "enum": ["low", "medium", "high", "critical"],
+          "description": "How severe this problem is for the affected segment."
+        },
+        "frequency": {
+          "type": "string",
+          "description": "How often the problem occurs."
+        },
+        "existing_solutions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Known existing solutions or workarounds."
+        }
+      },
+      "required": ["statement", "severity"],
+      "additionalProperties": false
+    },
+    "CustomerSegment": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the customer segment."
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of who this segment is."
+        },
+        "pain_points": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Key pain points experienced by this segment."
+        },
+        "willingness_to_pay": {
+          "type": "string",
+          "description": "Estimated willingness to pay for a solution."
+        },
+        "accessibility": {
+          "type": "string",
+          "description": "How easily the founder can reach this segment."
+        }
+      },
+      "required": ["name", "description", "pain_points"],
+      "additionalProperties": false
+    }
+  }
+}

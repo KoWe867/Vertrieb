@@ -1,0 +1,225 @@
+{
+  "name": "evaluate_project",
+  "description": "Produce a structured viability assessment of the founder's business concept. Call after evaluating the selected direction to give the founder an honest go/no-go recommendation. Requires the refined concept and the founder's constraints.",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "concept": {
+        "$ref": "#/$defs/RefinedConcept"
+      },
+      "constraints": {
+        "type": "object",
+        "properties": {
+          "budget": {
+            "type": "string",
+            "enum": ["bootstrap", "small", "medium", "funded"]
+          },
+          "time_commitment": {
+            "type": "string",
+            "enum": ["side_project", "part_time", "full_time"]
+          },
+          "risk_tolerance": {
+            "type": "string",
+            "enum": ["low", "medium", "high"]
+          }
+        },
+        "required": ["budget", "time_commitment", "risk_tolerance"],
+        "additionalProperties": false
+      },
+      "skills": {
+        "type": "array",
+        "items": {
+          "$ref": "#/$defs/SkillItem"
+        },
+        "description": "The founder's skills for assessing founder-market fit"
+      },
+      "segments": {
+        "type": "array",
+        "items": {
+          "$ref": "#/$defs/CustomerSegment"
+        },
+        "description": "Target customer segments for assessing market viability"
+      },
+      "business_models": {
+        "type": "array",
+        "items": {
+          "$ref": "#/$defs/BusinessModel"
+        },
+        "description": "Candidate business models for assessing revenue feasibility"
+      }
+    },
+    "required": ["concept", "constraints"],
+    "additionalProperties": false
+  },
+  "output_schema": {
+    "type": "object",
+    "properties": {
+      "viability_score": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1,
+        "description": "Overall viability score from 0 (do not pursue) to 1 (strong opportunity)"
+      },
+      "recommendation": {
+        "type": "string",
+        "enum": ["strong_go", "go", "conditional_go", "pivot", "no_go"],
+        "description": "Clear recommendation for the founder"
+      },
+      "strengths": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "Key strengths of this business concept"
+      },
+      "weaknesses": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "Key weaknesses or concerns"
+      },
+      "founder_fit": {
+        "type": "string",
+        "description": "Assessment of how well this founder is positioned to execute this concept"
+      },
+      "market_opportunity": {
+        "type": "string",
+        "description": "Assessment of the market size and timing"
+      },
+      "key_assumptions": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "Critical assumptions that must be validated before committing"
+      },
+      "suggested_validation_steps": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "Concrete steps to validate the concept before investing significant resources"
+      },
+      "summary": {
+        "type": "string",
+        "description": "A frank 2-3 sentence assessment of the overall opportunity"
+      }
+    },
+    "required": ["viability_score", "recommendation", "strengths", "weaknesses", "key_assumptions"],
+    "additionalProperties": true
+  },
+  "$defs": {
+    "RefinedConcept": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the refined concept."
+        },
+        "refined_proposition": {
+          "type": "string",
+          "description": "The refined value proposition after evaluation."
+        },
+        "risks": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Identified risks for this direction."
+        },
+        "next_actions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Recommended next steps to pursue this direction."
+        },
+        "open_questions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Unresolved questions that need further exploration."
+        }
+      },
+      "required": ["name", "refined_proposition", "risks", "next_actions"],
+      "additionalProperties": false
+    },
+    "SkillItem": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the skill."
+        },
+        "category": {
+          "type": "string",
+          "enum": ["technical", "business", "creative", "interpersonal"],
+          "description": "Broad category the skill falls into."
+        },
+        "proficiency": {
+          "type": "string",
+          "enum": ["beginner", "intermediate", "advanced", "expert"],
+          "description": "Self-assessed or inferred proficiency level."
+        }
+      },
+      "required": ["name", "category", "proficiency"],
+      "additionalProperties": false
+    },
+    "CustomerSegment": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the customer segment."
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of who this segment is."
+        },
+        "pain_points": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Key pain points experienced by this segment."
+        },
+        "willingness_to_pay": {
+          "type": "string",
+          "description": "Estimated willingness to pay for a solution."
+        },
+        "accessibility": {
+          "type": "string",
+          "description": "How easily the founder can reach this segment."
+        }
+      },
+      "required": ["name", "description", "pain_points"],
+      "additionalProperties": false
+    },
+    "BusinessModel": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["saas", "marketplace", "service", "product", "content", "consulting", "freemium", "licensing"],
+          "description": "The business model archetype."
+        },
+        "revenue_mechanism": {
+          "type": "string",
+          "description": "How this model generates revenue."
+        },
+        "fit_score": {
+          "type": "number",
+          "description": "How well this model fits the founder's profile (0-1)."
+        },
+        "rationale": {
+          "type": "string",
+          "description": "Why this model is recommended for this founder."
+        }
+      },
+      "required": ["type", "revenue_mechanism", "fit_score", "rationale"],
+      "additionalProperties": false
+    }
+  }
+}

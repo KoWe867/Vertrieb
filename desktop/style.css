@@ -1,0 +1,35 @@
+:root { --bg:#f3f5f7; --card:#fff; --text:#0f172a; --muted:#64748b; --line:#e2e8f0; --brand:#0f766e; --brand-soft:#d1fae5; --side:#0b1f1d; --side-text:#cbd5e1; --danger:#b91c1c; --warn:#b45309; --ok:#15803d; --radius:12px; }
+@media (prefers-color-scheme: dark) { :root { --bg:#0b1220; --card:#111a2b; --text:#e5e7eb; --muted:#94a3b8; --line:#1f2a3d; --brand-soft:#0f3d38; --side:#060d0c; } }
+* { box-sizing:border-box } [hidden] { display:none !important }
+html,body { margin:0; height:100%; background:var(--bg); color:var(--text); font:15px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif }
+body { display:flex; min-height:100vh }
+a { color:var(--brand); text-decoration:none }
+h1 { font-size:1.5rem; margin:0 0 1rem } h2 { font-size:1.1rem; margin:1.4rem 0 .6rem } h3 { font-size:1rem; margin:.8rem 0 .4rem }
+.muted { color:var(--muted) } .small { font-size:.8rem }
+.sidebar { width:240px; flex:0 0 240px; background:var(--side); color:var(--side-text); display:flex; flex-direction:column; padding:1.2rem 0; position:sticky; top:0; height:100vh }
+.logo { color:#fff; font-weight:700; font-size:1.2rem; padding:0 1.2rem 1.2rem } .logo span { font-weight:400; opacity:.7 }
+.sidebar nav a { display:block; padding:.65rem 1.2rem; color:var(--side-text); border-left:3px solid transparent }
+.sidebar nav a.active, .sidebar nav a:hover { background:rgba(255,255,255,.06); color:#fff; border-left-color:#34d399 }
+.side-foot { margin-top:auto; padding:1rem 1.2rem; border-top:1px solid rgba(255,255,255,.08) } .side-foot a { color:#a7f3d0; display:block; margin-bottom:.4rem }
+.main { flex:1; padding:1.6rem 2rem; max-width:1300px }
+.grid { display:grid; gap:1rem } .grid.c2 { grid-template-columns:1fr 1fr } .grid.c3 { grid-template-columns:repeat(3,1fr) } .grid.c4 { grid-template-columns:repeat(4,1fr) }
+@media (max-width:1000px){ .grid.c3,.grid.c4 { grid-template-columns:1fr 1fr } } @media (max-width:700px){ body{flex-direction:column} .sidebar{width:100%;height:auto;position:static;flex:none} .grid.c2,.grid.c3,.grid.c4{grid-template-columns:1fr} .main{padding:1rem} }
+.card { background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:1rem 1.2rem }
+.kpi b { display:block; font-size:1.9rem; line-height:1.1 } .kpi small { color:var(--muted) }
+.progress { height:6px; background:var(--line); border-radius:3px; overflow:hidden; margin-top:.5rem } .progress i { display:block; height:100%; background:var(--brand) } .progress i.warn { background:var(--warn) } .progress i.danger { background:var(--danger) }
+.btn { display:inline-flex; align-items:center; gap:.4rem; border:1px solid var(--brand); background:var(--brand); color:#fff; border-radius:8px; padding:.5rem .9rem; font-size:.9rem; font-weight:600; cursor:pointer }
+.btn.ghost { background:transparent; color:var(--brand) } .btn.soft { background:var(--brand-soft); color:var(--brand); border-color:transparent } .btn.danger { background:var(--danger); border-color:var(--danger) } .btn.warn { background:var(--warn); border-color:var(--warn) } .btn.ok { background:var(--ok); border-color:var(--ok) } .btn.sm { padding:.3rem .6rem; font-size:.8rem } .btn:disabled { opacity:.5 }
+input,select,textarea { width:100%; font:inherit; color:inherit; background:var(--bg); border:1px solid var(--line); border-radius:8px; padding:.5rem .6rem } textarea { min-height:6rem } label { display:block; font-size:.8rem; color:var(--muted); margin:.6rem 0 .2rem }
+.row { display:flex; gap:.6rem; align-items:center } .row.between { justify-content:space-between } .row.wrap { flex-wrap:wrap } .grow { flex:1 }
+table { width:100%; border-collapse:collapse; font-size:.9rem } th,td { text-align:left; padding:.5rem .6rem; border-bottom:1px solid var(--line); vertical-align:top } th { color:var(--muted); font-weight:600; font-size:.78rem; text-transform:uppercase; letter-spacing:.03em } tr.click { cursor:pointer } tr.click:hover td { background:rgba(15,118,110,.05) }
+.badge { display:inline-block; font-size:.72rem; padding:.15rem .5rem; border-radius:999px; background:var(--line) }
+.badge.neu{background:#dbeafe;color:#1e40af}.badge.rueckruf{background:#fef3c7;color:#92400e}.badge.termin{background:#dcfce7;color:#166534}.badge.angebot{background:#ede9fe;color:#5b21b6}.badge.kunde{background:#bbf7d0;color:#14532d}.badge.kein_interesse,.badge.nicht_anrufen{background:#fee2e2;color:#991b1b}
+.badge.hot{background:#fee2e2;color:#991b1b}.badge.warm{background:#fef3c7;color:#92400e}.badge.cold{background:#e0f2fe;color:#075985}.badge.de{background:#fef3c7;color:#92400e}.badge.en{background:#dbeafe;color:#1e40af}
+.chips { display:flex; gap:.4rem; flex-wrap:wrap } .chip { border:1px solid var(--line); background:var(--card); border-radius:999px; padding:.25rem .7rem; font-size:.8rem; color:var(--muted); cursor:pointer } .chip.active { background:var(--brand-soft); color:var(--brand); border-color:var(--brand) }
+.hint { font-size:.85rem; background:var(--brand-soft); border-radius:8px; padding:.6rem .8rem } .hint.warn { background:#fef3c7; color:#92400e }
+pre.mail { white-space:pre-wrap; font:inherit; font-size:.88rem; background:var(--bg); padding:.7rem; border-radius:8px }
+.modal { position:fixed; inset:0; background:rgba(0,0,0,.45); display:flex; align-items:center; justify-content:center; z-index:50 } .modal-card { background:var(--card); width:min(720px,94vw); max-height:90vh; overflow:auto; border-radius:14px; padding:1.2rem 1.4rem }
+.toast { position:fixed; left:50%; bottom:1.5rem; transform:translateX(-50%); background:#111; color:#fff; padding:.6rem 1rem; border-radius:999px; z-index:60 }
+.spinner { display:inline-block; width:1rem; height:1rem; border:2px solid var(--line); border-top-color:var(--brand); border-radius:50%; animation:spin .8s linear infinite; vertical-align:middle } @keyframes spin { to { transform:rotate(360deg) } }
+.pipeline { display:flex; gap:.4rem } .pipeline div { flex:1; text-align:center; padding:.5rem .3rem; border-radius:8px; background:var(--bg); font-size:.8rem } .pipeline b { display:block; font-size:1.2rem }
+.empty { color:var(--muted); text-align:center; padding:2rem }

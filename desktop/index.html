@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Alwine Vertrieb – Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="logo">Alwine <span>Vertrieb</span></div>
+    <nav id="nav">
+      <a href="#/uebersicht" data-route="uebersicht">📈 Übersicht</a>
+      <a href="#/leads" data-route="leads">🏢 Leads &amp; Finder</a>
+      <a href="#/mail" data-route="mail">✉️ Mail-Center</a>
+      <a href="#/konten" data-route="konten">👤 Gmail-Konten</a>
+      <a href="#/profil" data-route="profil">🪪 Persönliche Infos</a>
+      <a href="#/einstellungen" data-route="einstellungen">⚙️ Einstellungen</a>
+    </nav>
+    <div class="side-foot">
+      <a href="../" target="_blank">📱 Handy-App öffnen</a>
+      <div id="side-status" class="muted small"></div>
+    </div>
+  </aside>
+  <main id="view" class="main"></main>
+  <div id="modal" class="modal" hidden><div class="modal-card" id="modal-card"></div></div>
+  <div id="toast" class="toast" hidden></div>
+
+  <script src="../js/data/services.js"></script>
+  <script src="../js/data/industries.js"></script>
+  <script src="../js/data/scripts.js"></script>
+  <script src="../js/data/emails.js"></script>
+  <script src="../js/data/scripts_en.js"></script>
+  <script src="../js/data/emails_en.js"></script>
+  <script src="../js/data/lead_sources.js"></script>
+  <script src="store.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

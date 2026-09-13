@@ -1,0 +1,152 @@
+{
+  "name": "infer_customer_segments",
+  "description": "Derive target customer segments from the founder's skills and experience. Call after all elicitation steps are complete. Requires the structured skills and experience collected earlier.",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "skills": {
+        "type": "array",
+        "items": {
+          "$ref": "#/$defs/SkillItem"
+        },
+        "description": "The founder's structured skill items."
+      },
+      "experience": {
+        "type": "array",
+        "items": {
+          "$ref": "#/$defs/ExperienceSegment"
+        },
+        "description": "The founder's structured experience segments."
+      },
+      "interests": {
+        "type": "array",
+        "items": {
+          "$ref": "#/$defs/InterestCluster"
+        },
+        "description": "The founder's interest clusters, if available."
+      }
+    },
+    "required": ["skills", "experience"],
+    "additionalProperties": false
+  },
+  "output_schema": {
+    "type": "object",
+    "properties": {
+      "segments": {
+        "type": "array",
+        "items": {
+          "$ref": "#/$defs/CustomerSegment"
+        },
+        "description": "Inferred customer segments based on founder profile."
+      },
+      "summary": {
+        "type": "string",
+        "description": "A brief narrative summary of the inferred segments."
+      }
+    },
+    "required": ["segments"],
+    "additionalProperties": true
+  },
+  "$defs": {
+    "SkillItem": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the skill."
+        },
+        "category": {
+          "type": "string",
+          "enum": ["technical", "business", "creative", "interpersonal"],
+          "description": "Broad category the skill falls into."
+        },
+        "proficiency": {
+          "type": "string",
+          "enum": ["beginner", "intermediate", "advanced", "expert"],
+          "description": "Self-assessed or inferred proficiency level."
+        }
+      },
+      "required": ["name", "category", "proficiency"],
+      "additionalProperties": false
+    },
+    "ExperienceSegment": {
+      "type": "object",
+      "properties": {
+        "domain": {
+          "type": "string",
+          "description": "Industry or domain of experience."
+        },
+        "role": {
+          "type": "string",
+          "description": "Role or function held in this domain."
+        },
+        "years": {
+          "type": "number",
+          "description": "Approximate years of experience in this domain."
+        },
+        "insider_knowledge": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Key insights or insider knowledge gained in this domain."
+        }
+      },
+      "required": ["domain", "role", "insider_knowledge"],
+      "additionalProperties": false
+    },
+    "InterestCluster": {
+      "type": "object",
+      "properties": {
+        "theme": {
+          "type": "string",
+          "description": "Central theme of the interest cluster."
+        },
+        "keywords": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Keywords associated with this interest theme."
+        },
+        "intensity": {
+          "type": "string",
+          "enum": ["casual", "moderate", "passionate"],
+          "description": "How strongly the founder feels about this interest."
+        }
+      },
+      "required": ["theme", "keywords", "intensity"],
+      "additionalProperties": false
+    },
+    "CustomerSegment": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the customer segment."
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of who this segment is."
+        },
+        "pain_points": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Key pain points experienced by this segment."
+        },
+        "willingness_to_pay": {
+          "type": "string",
+          "description": "Estimated willingness to pay for a solution."
+        },
+        "accessibility": {
+          "type": "string",
+          "description": "How easily the founder can reach this segment."
+        }
+      },
+      "required": ["name", "description", "pain_points"],
+      "additionalProperties": false
+    }
+  }
+}

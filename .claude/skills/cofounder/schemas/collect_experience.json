@@ -1,0 +1,68 @@
+{
+  "name": "collect_experience",
+  "description": "Parse the founder's professional experience into structured domain segments. Call after collecting interests to map the founder's background. Expects the founder's response about their work history and expertise areas.",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "response": {
+        "type": "string",
+        "description": "The founder's natural-language response about their work history and expertise areas."
+      },
+      "prior_experience": {
+        "type": "array",
+        "items": {
+          "$ref": "#/$defs/ExperienceSegment"
+        },
+        "description": "Previously collected experience segments to merge with or refine."
+      }
+    },
+    "required": ["response"],
+    "additionalProperties": false
+  },
+  "output_schema": {
+    "type": "object",
+    "properties": {
+      "segments": {
+        "type": "array",
+        "items": {
+          "$ref": "#/$defs/ExperienceSegment"
+        },
+        "description": "Structured experience segments extracted from the response."
+      },
+      "summary": {
+        "type": "string",
+        "description": "A brief narrative summary of the founder's experience."
+      }
+    },
+    "required": ["segments"],
+    "additionalProperties": true
+  },
+  "$defs": {
+    "ExperienceSegment": {
+      "type": "object",
+      "properties": {
+        "domain": {
+          "type": "string",
+          "description": "Industry or domain of experience."
+        },
+        "role": {
+          "type": "string",
+          "description": "Role or function held in this domain."
+        },
+        "years": {
+          "type": "number",
+          "description": "Approximate years of experience in this domain."
+        },
+        "insider_knowledge": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Key insights or insider knowledge gained in this domain."
+        }
+      },
+      "required": ["domain", "role", "insider_knowledge"],
+      "additionalProperties": false
+    }
+  }
+}
