@@ -1,11 +1,11 @@
 {
- "generated": "2026-09-22T08:49:07.191153+00:00",
+ "generated": "2026-09-23T08:56:49.293851+00:00",
  "log": [
-  "de Berlin handwerk: FEHLER Overpass nicht erreichbar: The read operation timed out",
-  "de Hamburg praxis: 10 neu",
+  "de Berlin handwerk: FEHLER Overpass nicht erreichbar: HTTP Error 504: Gateway Timeout",
+  "de Hamburg praxis: FEHLER Overpass nicht erreichbar: The read operation timed out",
   "us Austin, Texas handwerk: 0 neu",
-  "us Denver, Colorado dienstleister: 0 neu",
-  "uk Manchester gastro: 4 neu",
+  "us Denver, Colorado dienstleister: FEHLER Overpass nicht erreichbar: The read operation timed out",
+  "uk Manchester gastro: 0 neu",
   "au Brisbane immobilien: 0 neu"
  ],
  "leads": [
