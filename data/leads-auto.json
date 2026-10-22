@@ -1,11 +1,11 @@
 {
- "generated": "2026-10-21T08:52:45.085384+00:00",
+ "generated": "2026-10-22T08:57:49.314527+00:00",
  "log": [
-  "de Berlin handwerk: 0 neu",
-  "de Hamburg praxis: 4 neu",
+  "de Berlin handwerk: FEHLER Overpass nicht erreichbar: The read operation timed out",
+  "de Hamburg praxis: 0 neu",
   "us Austin, Texas handwerk: 0 neu",
-  "us Denver, Colorado dienstleister: FEHLER Overpass nicht erreichbar: The read operation timed out",
-  "uk Manchester gastro: 0 neu",
+  "us Denver, Colorado dienstleister: 0 neu",
+  "uk Manchester gastro: FEHLER Overpass nicht erreichbar: The read operation timed out",
   "au Brisbane immobilien: 0 neu"
  ],
  "leads": [
