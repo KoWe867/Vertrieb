@@ -1,31 +1,12 @@
 {
- "generated": "2026-11-12T11:56:00.175579+00:00",
+ "generated": "2026-11-13T11:34:21.187909+00:00",
  "log": [
   "de Berlin handwerk: FEHLER Overpass nicht erreichbar: The read operation timed out",
-  "de Hamburg praxis: FEHLER Overpass nicht erreichbar: The read operation timed out",
-  "us Austin, Texas handwerk: FEHLER Overpass nicht erreichbar: The read operation timed out",
-  "us Denver, Colorado dienstleister: FEHLER Overpass nicht erreichbar: The read operation timed out",
+  "de Hamburg praxis: 0 neu",
+  "us Austin, Texas handwerk: 0 neu",
+  "us Denver, Colorado dienstleister: 0 neu",
   "uk Manchester gastro: FEHLER Overpass nicht erreichbar: The read operation timed out",
   "au Brisbane immobilien: FEHLER Overpass nicht erreichbar: The read operation timed out"
  ],
- "leads": [
-  {
-   "firma": "Augenarzt Dr. Greven und Remmecke",
-   "telefon": "+49 40 6729414",
-   "email": "",
-   "website": "",
-   "branche": "praxis",
-   "markt": "de",
-   "land": "Deutschland",
-   "stadt": "Hamburg",
-   "sprache": "de",
-   "quelle": "osm:node/3893896064",
-   "typ": "doctors",
-   "neu": false,
-   "notizen": "Keine Webseite hinterlegt – vermutlich kein oder schwacher Online-Auftritt\nTyp: doctors\nAdresse: Dahlemer Ring 9, Hamburg",
-   "lat": 53.5849438,
-   "lon": 10.1441353,
-   "_ts": 1793356335.972758
-  }
- ]
+ "leads": []
 }
